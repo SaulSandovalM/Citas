@@ -19,7 +19,7 @@ class App extends Component {
     });
     setTimeout(() => {
       this.setState({alert: false});
-    }, 4000);
+    }, 6000);
   }
 
   resetForm() {
@@ -55,7 +55,7 @@ class App extends Component {
     };
     if (params.nombre && params.apellidop && params.apellidom && params.email && params.rfc && params.municipio && params.colonia && params.fecha && params.hora && params.sede) {
       firebaseConf.database().ref('agenda-cita').push(params).then(() => {
-        this.showAlert('success', 'Tu solicitud fue enviada');
+        this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
       }).catch(() => {
         this.showAlert('danger', 'Tu solicitud no puede ser enviada');
       });
@@ -113,7 +113,11 @@ class App extends Component {
               </p>
             </div>
             <div className="text">
-
+              <h5 className="title-r">Ubicación</h5>
+              <p>Servicios Periciales</p>
+              <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
+              <p>Servicios Periciales</p>
+              <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
             </div>
           </div>
 
@@ -298,7 +302,7 @@ class App extends Component {
                   </div>
                   <div className="form-group-r">
                     <div className="modal-name">
-                      <select className="form-control-r" ref={sede => this.inputSede = sede}>
+                      <select className="form-control-r" ref={sede => this.inputSede = sede} onchange="hello()">
                         <option id='sede'>Pachuca de Soto</option>
                         <option id='sede'>Huejutla</option>
                       </select>
