@@ -67,12 +67,14 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
-        {this.state.alert && <div className={`alert alert-${this.state.alertData.type}`} role='alert'>
-          <div className='container'>
-            {this.state.alertData.message}
-          </div>
-        </div>}
+      <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100'}}>
+        <div style={{justifyContent: 'left', zIndex: '200'}}>
+          {this.state.alert && <div className={`alert alert-${this.state.alertData.type}`} role='alert'>
+            <div className='container'>
+              {this.state.alertData.message}
+            </div>
+          </div>}
+        </div>
         <div style={{width: '65%'}}>
           <h1 className="back-title">Expedición de Constancia de NO Antecedentes Penales</h1>
           <div className="row">
@@ -119,7 +121,7 @@ class App extends Component {
             <h1 className="back-title">Agenda tu Cita</h1>
             <div className="row2">
               <div className="text2">
-                <form onSubmit={this.sendMessage.bind(this)} ref='contactForm'>
+                <form onSubmit={this.sendMessage.bind(this)}>
                   <div className="form-group-r">
                     <div className="modal-name">
                       <input
@@ -269,7 +271,7 @@ class App extends Component {
                   <div className="card-container-r2">
                     <div className='porcent-r'>
                       <input
-                        min="2020-01-01" max="2020-12-31"
+                        min="2020-01" max="2020-12"
                         type="date"
                         className="cell-r"
                         id='fecha'
@@ -277,7 +279,7 @@ class App extends Component {
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
                     <div className='porcent-r2'>
-                      <select className="form-control-r" ref={hora => this.inputMunicipio = hora}>
+                      <select className="form-control-r" ref={hora => this.inputHora = hora}>
                         <option id='hora'>8:00 am</option>
                         <option id='hora'>9:00 am</option>
                         <option id='hora'>10:00 am</option>
@@ -296,12 +298,10 @@ class App extends Component {
                   </div>
                   <div className="form-group-r">
                     <div className="modal-name">
-                      <input
-                        type='text'
-                        className="form-control-r"
-                        id='sede'
-                        placeholder='Sede'
-                        ref={sede => this.inputSede = sede} />
+                      <select className="form-control-r" ref={sede => this.inputSede = sede}>
+                        <option id='sede'>Pachuca de Soto</option>
+                        <option id='sede'>Huejutla</option>
+                      </select>
                     </div>
                   </div>
                   <div className="presentation-cta">
