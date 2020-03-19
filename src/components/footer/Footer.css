@@ -1,0 +1,9 @@
+.footer-container {
+  background: #FFF;
+}
+.legal {
+  color: #000;
+  padding: 1.1em 0;
+  justify-content: center;
+  display: flex;
+}
