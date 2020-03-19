@@ -8,9 +8,10 @@ const Login = (props) => {
       <h2>Inicia Sesión</h2>
       <form
         style={{display: 'flex', flexDirection: 'column'}}
+        className="border-form-login"
         onSubmit={props.onSubmit}>
         <input
-          style={{margin: '10px 30px 0px 30px', height: '30px'}}
+          className="input-style-1"
           name="email"
           required
           floatingLabelText="Email"
@@ -20,7 +21,7 @@ const Login = (props) => {
           fullWidth={true}
         />
         <input
-          style={{margin: '30px 30px 0px 30px', height: '30px'}}
+          className="input-style-2"
           name="password"
           required
           floatingLabelText="Contraseña"
@@ -30,12 +31,13 @@ const Login = (props) => {
           fullWidth={true}
         />
         <div className="cta2">
-          <button className="boton2-l" type="submit" primary={true} fullWidth={true}>Entrar</button>
+          <button className="boton2-l" type="submit" primary={true} fullWidth={true}>Ingresar</button>
         </div>
       </form>
     </div>
     </div>
   );
 };
+
 
 export default Login;
