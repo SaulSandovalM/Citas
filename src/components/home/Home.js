@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import firebaseConf from '../../Firebase';
+import ReactToPrint from 'react-to-print';
 
 class Home extends Component {
   constructor(props) {
@@ -63,6 +64,12 @@ class Home extends Component {
     } else {
       this.showAlert('warning', 'Por favor llene el formulario');
     };
+  }
+
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
   }
 
   render() {
@@ -169,6 +176,8 @@ class Home extends Component {
                         className="cell-r"
                         id='rfc'
                         placeholder='RFC'
+                        minLength={12}
+                        maxLength={13}
                         ref={rfc => this.inputRfc = rfc} />
                     </div>
                   </div>
@@ -311,9 +320,49 @@ class Home extends Component {
                   <div className="presentation-cta">
                     <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
+                  <ReactToPrint
+                    trigger={() => <a href="/#">Imprimie aqui tu Ticket</a>}
+                    content={() => this.componentRef}
+                  />
+                  <ComponentToPrint ref={el => (this.componentRef = el)}/>
                 </form>
               </div>
             </div>
+          </div>
+        </div>
+        <div>
+
+      </div>
+      </div>
+    );
+  }
+}
+
+class ComponentToPrint extends React.Component {
+  render() {
+    return (
+      <div className='print-source' style={{padding: '20px'}}>
+        <div className="row-ti">
+          <img src={'https://cdn.hidalgo.gob.mx/logo_hgo_2019.png'} alt='' className='img-cc'/>
+          <div className="column-t">
+            <p className="name-size">Folio de Atención</p>
+            <p className="name-size3">20032011</p>
+            <p className="name-size">Cita</p>
+            <p className="name-size2">20 Abril, 11:00</p>
+          </div>
+        </div>
+        <div className="column-t row-ti">
+          <div className="column-t">
+            <p className="name-size">Nombre</p>
+            <p className="name-size2">Saul Sandoval Mondragon</p>
+          </div>
+          <div className="column-t">
+            <p className="name-size">Ubicación</p>
+            <p className="name-size2">Pachuca de Soto</p>
+          </div>
+          <div className="column-t">
+            <p className="name-size">Observaciones</p>
+            <p className="name-size3">Le recordamos que en el caso de pagar en BBVA y Santander el pago tardara en reflejarse en un tiempo de 48 horas aproximadamente.</p>
           </div>
         </div>
       </div>
