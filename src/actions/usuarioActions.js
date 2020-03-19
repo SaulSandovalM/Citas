@@ -45,7 +45,7 @@ export function registrarEIniciarSesion(user) {
       })
     .catch(function(error) {
       let errorMessage = error.message;
-      console.log('something wrong ' + errorMessage);
+      console.log('Algo salio mal' + errorMessage);
     });
   }
 }
@@ -57,7 +57,7 @@ export function cerrarSesion() {
         console.log('Ya sali ', r);
         dispatch(cerrarSesionAction(null));
       }).catch( (error) => {
-        console.error('No pude salir');
+        console.error('No pude salir, ayuda');
       });
   }
 }

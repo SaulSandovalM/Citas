@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import firebaseConf from '../../Firebase';
+import {Link} from 'react-router-dom';
 
 class Home extends Component {
   constructor(props) {
@@ -125,7 +126,7 @@ class Home extends Component {
             <h1 className="back-title">Agenda tu Cita</h1>
             <div className="row2">
               <div className="text2">
-                <form onSubmit={this.sendMessage.bind(this)}>
+                <form onSubmit={this.sendMessage.bind(this)} ref='contactForm'>
                   <div className="form-group-r">
                     <div className="modal-name">
                       <input
@@ -302,7 +303,7 @@ class Home extends Component {
                   </div>
                   <div className="form-group-r">
                     <div className="modal-name">
-                      <select className="form-control-r" ref={sede => this.inputSede = sede} onchange="hello()">
+                      <select className="form-control-r" ref={sede => this.inputSede = sede}>
                         <option id='sede'>Pachuca de Soto</option>
                         <option id='sede'>Huejutla</option>
                       </select>
@@ -311,6 +312,9 @@ class Home extends Component {
                   <div className="presentation-cta">
                     <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
+                  <Link to="/TablePachuca">
+                    <button>TablePachuca</button>
+                  </Link>
                 </form>
               </div>
             </div>

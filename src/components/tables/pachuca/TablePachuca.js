@@ -10,7 +10,7 @@ class TablePachuca extends Component {
       agendaCita: [],
     };
   }
-  
+
   componentWillMount () {
     firebaseConf.database().ref('agenda-cita').on('child_added', snapshot => {
       this.setState({
@@ -27,13 +27,23 @@ class TablePachuca extends Component {
     return (
       <div className="App">
         <h1>Citas</h1>
+          <div className="products-al">
+            <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', fontWeight: 'bold'}}>Nombre</div>
+            <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', fontWeight: 'bold'}}>Correo</div>
+            <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', fontWeight: 'bold'}}>RFC</div>
+            <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', fontWeight: 'bold'}}>Municipio</div>
+            <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', fontWeight: 'bold'}}>Colonia</div>
+            <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center', fontWeight: 'bold'}}>Fecha/Hora</div>
+          </div>
         {
           this.state.agendaCita.map(agendaCita => (
             <div className="products-al">
-              <div style={{width: '25%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>Nombre: {agendaCita.nombre} {agendaCita.apellidop} {agendaCita.apellidom}</div>
-              <div style={{width: '25%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>Email: {agendaCita.email}</div>
-              <div style={{width: '25%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>Fecha: {agendaCita.fecha}</div>
-              <div style={{width: '25%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>Hora: {agendaCita.hora}</div>
+              <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>{agendaCita.nombre} {agendaCita.apellidop} {agendaCita.apellidom}</div>
+              <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>{agendaCita.email}</div>
+              <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>{agendaCita.rfc}</div>
+              <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>{agendaCita.municipio}</div>
+              <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>{agendaCita.colonia}</div>
+              <div style={{width: '16.6%', height: '40px', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>{agendaCita.hora} - {agendaCita.fecha}</div>
             </div>
           )).reverse()
         }
