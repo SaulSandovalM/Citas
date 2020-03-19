@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Home.css';
 import firebaseConf from '../../Firebase';
-import {Link} from 'react-router-dom';
 
 class Home extends Component {
   constructor(props) {
@@ -312,9 +311,6 @@ class Home extends Component {
                   <div className="presentation-cta">
                     <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
-                  <Link to="/TablePachuca">
-                    <button>TablePachuca</button>
-                  </Link>
                 </form>
               </div>
             </div>

@@ -1,0 +1,56 @@
+.back-login {
+  font-family: 'Montserrat', sans-serif;
+  width:100%;
+  height:100vh;
+  background-position: center;
+  background-size: cover;
+}
+.login{
+  width: 100%;
+  background-color: #c3c3c3;
+  opacity: 0.97;
+  position: relative;
+  margin-top: 100px;
+  height: 450px;
+}
+
+.login h2{
+  color: white;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+.back-login h1{
+  letter-spacing: 2px;
+  text-align:center;
+  position: absolute;
+  left:50px;
+  top: 40%;
+  font-size:35px;
+  color: white;
+}
+.boton2-l {
+  padding: 1.2em 3em;
+  background: #fff;
+  text-decoration: none;
+  color: #fff !important;
+  letter-spacing: 0.1em;
+  margin: 0 auto;
+  text-transform: uppercase;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 3px;
+  text-align: center;
+  outline: none;
+  font-weight: 500;
+  font-size: 16px;
+}
+.cta2 {
+  text-align: center;
+}
