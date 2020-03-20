@@ -47,8 +47,8 @@ class Home extends Component {
       .orderByKey()
       .limitToLast(6);
     formRef.on('child_added', snapshot => {
-      const {nombre, apellidop, apellidom, email, rfc, municipio, colonia, fecha, hora, sede} = snapshot.val();
-      const data = {nombre, apellidop, apellidom, email, rfc, municipio, colonia, fecha, hora, sede};
+      const {nombre, apellidop, apellidom, email, rfc, municipio, colonia, fecha, hora, sede, status} = snapshot.val();
+      const data = {nombre, apellidop, apellidom, email, rfc, municipio, colonia, fecha, hora, sede, status};
       this.setState({form: [data].concat(this.state.form)});
     });
   }
@@ -65,7 +65,8 @@ class Home extends Component {
       colonia: this.inputColonia.value,
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
-      sede: this.inputSede.value
+      sede: this.inputSede.value,
+      status: this.inputStatus.value
     };
     this.setState({
       nombre: this.inputNombre.value,
@@ -75,7 +76,8 @@ class Home extends Component {
       hora: this.inputHora.value,
       sede: this.inputSede.value
     })
-    if (params.nombre && params.apellidop && params.apellidom && params.email && params.rfc && params.municipio && params.colonia && params.fecha && params.hora && params.sede) {
+    if (params.nombre && params.apellidop && params.apellidom && params.email && params.rfc && params.municipio
+      && params.colonia && params.fecha && params.hora && params.sede && params.status) {
       firebaseConf.database().ref('agenda-cita').push(params).then(() => {
         this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
       }).catch(() => {
@@ -307,7 +309,6 @@ class Home extends Component {
                         className="cell-r"
                         id='fecha'
                         placeholder='Fecha'
-                        dateFormat="MMMM d, yyyy h:mm aa"
                         required
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
@@ -334,6 +335,16 @@ class Home extends Component {
                         <option id='sede'>Pachuca de Soto</option>
                         <option id='sede'>Huejutla</option>
                       </select>
+                    </div>
+                  </div>
+                  <div className="form-group-r hidden">
+                    <div className="modal-name">
+                      <input
+                        type='text'
+                        className="form-control-r"
+                        id='status'
+                        value="en espera"
+                        ref={status => this.inputStatus = status} />
                     </div>
                   </div>
                   <div className="presentation-cta">

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import '../Tables.css';
 import firebaseConf from '../../../Firebase';
 
@@ -20,8 +20,17 @@ class TablePachuca extends Component {
   }
 
   borrar = (agendaCita) => {
-    firebaseConf.database().ref().update('agenda-cita');
+    firebaseConf.database().ref().child('/agenda-cita/')
+        .set({ status: "New title"});
   }
+
+//  update = (data) {
+  //  firebaseConf.database().ref('agenda-cita').update(
+    //  {
+      //  status: 'atendido',
+      //},
+    //);
+  //}
 
   render() {
     return (
@@ -32,8 +41,8 @@ class TablePachuca extends Component {
             <div className="col-table">Correo</div>
             <div className="col-table">RFC</div>
             <div className="col-table">Municipio</div>
-            <div className="col-table">Colonia</div>
             <div className="col-table">Fecha/Hora</div>
+            <div className="col-table">Estatus</div>
           </div>
         {
           this.state.agendaCita.map(agendaCita => (
@@ -42,8 +51,11 @@ class TablePachuca extends Component {
               <div className="data-table">{agendaCita.email}</div>
               <div className="data-table">{agendaCita.rfc}</div>
               <div className="data-table">{agendaCita.municipio}</div>
-              <div className="data-table">{agendaCita.colonia}</div>
               <div className="data-table">{agendaCita.hora} - {agendaCita.fecha}</div>
+              <div className="data-table">
+                {agendaCita.status}
+                <button style={{background: 'grey', color: 'white'}} borrar={this.borrar}>Atendido</button>
+              </div>
             </div>
           )).reverse()
         }
