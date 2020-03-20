@@ -10,7 +10,20 @@ class Home extends Component {
       form: [],
       alert: false,
       alertData: {},
+      nombre: '',
+      apellidop: '',
+      apellidom: '',
+      sede: '',
+      fecha: '',
+      hora: '',
+      isHidden: true
     };
+  }
+
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
   }
 
   showAlert(type, message) {
@@ -54,6 +67,14 @@ class Home extends Component {
       hora: this.inputHora.value,
       sede: this.inputSede.value
     };
+    this.setState({
+      nombre: this.inputNombre.value,
+      apellidop: this.inputApellidop.value,
+      apellidom: this.inputApellidom.value,
+      fecha: this.inputFecha.value,
+      hora: this.inputHora.value,
+      sede: this.inputSede.value
+    })
     if (params.nombre && params.apellidop && params.apellidom && params.email && params.rfc && params.municipio && params.colonia && params.fecha && params.hora && params.sede) {
       firebaseConf.database().ref('agenda-cita').push(params).then(() => {
         this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
@@ -66,15 +87,9 @@ class Home extends Component {
     };
   }
 
-  toggleHidden () {
-    this.setState({
-      isHidden: !this.state.isHidden
-    })
-  }
-
   render() {
     return (
-      <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100'}}>
+      <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px'}}>
         <div style={{justifyContent: 'left', zIndex: '200'}}>
           {this.state.alert && <div className={`alert alert-${this.state.alertData.type}`} role='alert'>
             <div className='container'>
@@ -124,7 +139,9 @@ class Home extends Component {
               <p>Servicios Periciales</p>
               <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
               <p>Servicios Periciales</p>
-              <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
+              <a href="https://www.google.com.mx/maps/place/Agencia+del+Ministerio+Publico/@21.1496548,-98.4171,18z/data=!4m8!1m2!2m1!1sAgencia+de+Ministerio+P%C3%BAblico!3m4!1s0x85d727a12b89e037:0xb4b27e217d3f0a5e!8m2!3d21.1495294!4d-98.4171117">Abrir ubicación Google Maps</a>
+              <h5 className="title-r">Informes</h5>
+              <p>Para mas informacion favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
             </div>
           </div>
 
@@ -284,28 +301,30 @@ class Home extends Component {
                   <div className="card-container-r2">
                     <div className='porcent-r'>
                       <input
-                        min="2020-01" max="2020-12"
+                        min="2020-03-01"
+                        max="2020-06-31"
                         type="date"
                         className="cell-r"
                         id='fecha'
                         placeholder='Fecha'
+                        dateFormat="MMMM d, yyyy h:mm aa"
+                        required
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
                     <div className='porcent-r2'>
                       <select className="form-control-r" ref={hora => this.inputHora = hora}>
-                        <option id='hora'>8:00 am</option>
-                        <option id='hora'>9:00 am</option>
-                        <option id='hora'>10:00 am</option>
-                        <option id='hora'>11:00 am</option>
-                        <option id='hora'>12:00 pm</option>
-                        <option id='hora'>13:00 pm</option>
-                        <option id='hora'>14:00 pm</option>
-                        <option id='hora'>15:00 pm</option>
-                        <option id='hora'>16:00 pm</option>
-                        <option id='hora'>17:00 pm</option>
-                        <option id='hora'>18:00 pm</option>
-                        <option id='hora'>19:00 pm</option>
-                        <option id='hora'>20:00 pm</option>
+                        <option id='hora'>8:00</option>
+                        <option id='hora'>9:00</option>
+                        <option id='hora'>10:00</option>
+                        <option id='hora'>11:00</option>
+                        <option id='hora'>12:00</option>
+                        <option id='hora'>13:00</option>
+                        <option id='hora'>14:00</option>
+                        <option id='hora'>15:00</option>
+                        <option id='hora'>16:00</option>
+                        <option id='hora'>17:00</option>
+                        <option id='hora'>18:00</option>
+                        <option id='hora'>19:00</option>
                       </select>
                     </div>
                   </div>
@@ -318,13 +337,38 @@ class Home extends Component {
                     </div>
                   </div>
                   <div className="presentation-cta">
-                    <button type='submit' className="boton-color2">Confirmar</button>
+                    <button type='submit' className="boton-color2" onClick={this.toggleHidden.bind(this)}>Confirmar</button>
                   </div>
-                  <ReactToPrint
+                  {!this.state.isHidden && <ReactToPrint
                     trigger={() => <a href="/#">Imprimie aqui tu Ticket</a>}
                     content={() => this.componentRef}
-                  />
-                  <ComponentToPrint ref={el => (this.componentRef = el)}/>
+                  />}
+                  <div className='print-source' style={{padding: '20px'}} ref={el => (this.componentRef = el)}>
+                    <div className="row-ti">
+                      <img src={'https://firebasestorage.googleapis.com/v0/b/citas-f171e.appspot.com/o/5e74eab95d5a0_1584720603_5e74eab95d53b%20(1).png?alt=media&token=08fc00ea-9814-4419-a6d0-549e03bbcb00'} alt='' className='img-cc'/>
+                      <div className="column-t">
+                        <p className="name-size">Cita</p>
+                        <p className="name-size2">{this.state.fecha}, {this.state.hora}</p>
+                      </div>
+                    </div>
+                    <div className="column-t row-ti">
+                      <div className="column-t">
+                        <p className="name-size">Nombre</p>
+                        <p className="name-size2">{this.state.nombre}{this.state.apellidop}</p>
+                      </div>
+                      <div className="column-t">
+                        <p className="name-size">Ubicación</p>
+                        <p className="name-size2">{this.state.sede}</p>
+                      </div>
+                      <div className="column-t">
+                        <p className="name-size">Observaciones</p>
+                        <p className="name-size3">
+                          Le recordamos que en el caso de pagar en BBVA y Santander el pago tardara en
+                          reflejarse en un tiempo de 48 horas aproximadamente.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>
@@ -333,38 +377,6 @@ class Home extends Component {
         <div>
 
       </div>
-      </div>
-    );
-  }
-}
-
-class ComponentToPrint extends React.Component {
-  render() {
-    return (
-      <div className='print-source' style={{padding: '20px'}}>
-        <div className="row-ti">
-          <img src={'https://cdn.hidalgo.gob.mx/logo_hgo_2019.png'} alt='' className='img-cc'/>
-          <div className="column-t">
-            <p className="name-size">Folio de Atención</p>
-            <p className="name-size3">20032011</p>
-            <p className="name-size">Cita</p>
-            <p className="name-size2">20 Abril, 11:00</p>
-          </div>
-        </div>
-        <div className="column-t row-ti">
-          <div className="column-t">
-            <p className="name-size">Nombre</p>
-            <p className="name-size2">Saul Sandoval Mondragon</p>
-          </div>
-          <div className="column-t">
-            <p className="name-size">Ubicación</p>
-            <p className="name-size2">Pachuca de Soto</p>
-          </div>
-          <div className="column-t">
-            <p className="name-size">Observaciones</p>
-            <p className="name-size3">Le recordamos que en el caso de pagar en BBVA y Santander el pago tardara en reflejarse en un tiempo de 48 horas aproximadamente.</p>
-          </div>
-        </div>
       </div>
     );
   }
