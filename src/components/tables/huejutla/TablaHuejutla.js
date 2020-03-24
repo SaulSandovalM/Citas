@@ -12,7 +12,7 @@ class TablePachuca extends Component {
   }
 
   componentWillMount () {
-    firebaseConf.database().ref('agenda-cita').on('child_added', snapshot => {
+    firebaseConf.database().ref('agenda-cita/huejutla').on('child_added', snapshot => {
       this.setState({
         agendaCita: this.state.agendaCita.concat(snapshot.val())
       });
@@ -40,7 +40,7 @@ class TablePachuca extends Component {
 
     let filterData = this.state.agendaCita.filter(
       (agendaCita) => {
-        return agendaCita.sede.indexOf(this.state.search) !== -1;
+        return agendaCita.hora.indexOf(this.state.search) !== -1;
       }
     );
 

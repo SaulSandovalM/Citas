@@ -3,7 +3,7 @@ import './Home.css';
 import firebaseConf from '../../Firebase';
 import ReactToPrint from 'react-to-print';
 
-class Home extends Component {
+class HomeP extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,26 +13,10 @@ class Home extends Component {
       nombre: '',
       apellidop: '',
       apellidom: '',
-      sede: '',
       fecha: '',
       hora: '',
       isHidden: true
     };
-  }
-
-  NumberDescriber(props) {
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth()+1;
-    let yyyy = today.getFullYear();
-    if(dd<10){
-        dd='0'+dd
-    }
-    if(mm<10){
-        mm='0'+mm
-    }
-    today = yyyy+'-'+mm+'-'+dd;
-    document.getElementById("fecha").setAttribute("min", today);
   }
 
   showAlert(type, message) {
@@ -58,12 +42,12 @@ class Home extends Component {
   componentWillMount() {
     let formRef = firebaseConf
       .database()
-      .ref('agenda-cita')
+      .ref('agenda-cita/pachuca')
       .orderByKey()
       .limitToLast(6);
     formRef.on('child_added', snapshot => {
-      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, sede, status} = snapshot.val();
-      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, sede, status};
+      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc} = snapshot.val();
+      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc};
       this.setState({form: [data].concat(this.state.form)});
     });
   }
@@ -78,7 +62,8 @@ class Home extends Component {
       colonia: this.inputColonia.value,
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
-      sede: this.inputSede.value,
+      email: this.inputEmail.value,
+      rfc: this.inputRfc.value,
       status: this.inputStatus.value
     };
     this.setState({
@@ -87,11 +72,10 @@ class Home extends Component {
       apellidom: this.inputApellidom.value,
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
-      sede: this.inputSede.value
     })
-    if (params.nombre && params.apellidop && params.apellidom && params.municipio
-      && params.colonia && params.fecha && params.hora && params.sede && params.status) {
-      firebaseConf.database().ref('agenda-cita').push(params).then(() => {
+    if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email
+      && params.colonia && params.fecha && params.hora && params.status && params.rfc) {
+      firebaseConf.database().ref('agenda-cita/pachuca').push(params).then(() => {
         this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
       }).catch(() => {
         this.showAlert('danger', 'Tu solicitud no puede ser enviada');
@@ -117,6 +101,71 @@ class Home extends Component {
         }
 
     today = yyyy+'-'+mm+'-'+dd;
+
+    var d = new Date();
+    var n = d.getHours();
+    var tf8 = false;
+    var tf9 = false;
+    var tf10 = false;
+    var tf11 = false;
+    var tf12 = false;
+    var tf13 = false;
+    var tf14 = false;
+    var tf15 = false;
+    var tf16 = false;
+    var tf17 = false;
+
+    if (today && n > 7) {
+      tf8 = true;
+    } else {
+      tf8 = false;
+    }
+    if (n > 8){
+      tf9 = true;
+    } else {
+      tf9 = false;
+    }
+    if (n > 9){
+      tf10 = true;
+    } else {
+      tf10 = false;
+    }
+    if (n > 10){
+      tf11 = true;
+    } else {
+      tf11 = false;
+    }
+    if (n > 11){
+      tf12 = true;
+    } else {
+      tf12 = false;
+    }
+    if (n > 12){
+      tf13 = true;
+    } else {
+      tf13 = false;
+    }
+    if (n > 13){
+      tf14 = true;
+    } else {
+      tf14 = false;
+    }
+    if (n > 14){
+      tf15 = true;
+    }
+    else {
+      tf15 = false;
+    }
+    if (n > 15){
+      tf16 = true;
+    } else {
+      tf16 = false;
+    }
+    if (n > 16){
+      tf17 = true;
+    } else {
+      tf17 = false;
+    }
 
     return (
       <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px'}}>
@@ -166,10 +215,8 @@ class Home extends Component {
             </div>
             <div className="text">
               <h5 className="title-r">Ubicación</h5>
-              <p>Servicios Periciales</p>
+              <p>Servicios Periciales Pachuca</p>
               <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
-              <p>Servicios Periciales</p>
-              <a href="https://www.google.com.mx/maps/place/Agencia+del+Ministerio+Publico/@21.1496548,-98.4171,18z/data=!4m8!1m2!2m1!1sAgencia+de+Ministerio+P%C3%BAblico!3m4!1s0x85d727a12b89e037:0xb4b27e217d3f0a5e!8m2!3d21.1495294!4d-98.4171117">Abrir ubicación Google Maps</a>
               <h5 className="title-r">Informes</h5>
               <p>Para mas informacion favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
             </div>
@@ -211,10 +258,10 @@ class Home extends Component {
                         ref={apellidom => this.inputApellidom = apellidom} />
                     </div>
                   </div>
-                  {/*<div className="card-container-r2">
+                  <div className="card-container-r2">
                     <div className='porcent-r'>
                       <input
-                        type="email"
+                        type="text"
                         className="cell-r"
                         id='email'
                         placeholder='Email'
@@ -226,11 +273,10 @@ class Home extends Component {
                         className="cell-r"
                         id='rfc'
                         placeholder='RFC'
-                        minLength={12}
                         maxLength={13}
                         ref={rfc => this.inputRfc = rfc} />
                     </div>
-                  </div>*/}
+                  </div>
                   <div className="form-group-r">
                     <div className="modal-name">
                       <select className="form-control-r" ref={municipio => this.inputMunicipio = municipio}>
@@ -346,27 +392,20 @@ class Home extends Component {
                     </div>
                     <div className='porcent-r2'>
                       <select className="form-control-r" ref={hora => this.inputHora = hora}>
-                        <option id='hora' disabled={false}>8:00</option>
-                        <option id='hora'>9:00</option>
-                        <option id='hora'>10:00</option>
-                        <option id='hora'>11:00</option>
-                        <option id='hora'>12:00</option>
-                        <option id='hora'>13:00</option>
-                        <option id='hora'>14:00</option>
-                        <option id='hora'>15:00</option>
-                        <option id='hora'>16:00</option>
-                        <option id='hora'>17:00</option>
+                        <option id='hora' disabled={tf8}>8:00</option>
+                        <option id='hora' disabled={tf9}>9:00</option>
+                        <option id='hora' disabled={tf10}>10:00</option>
+                        <option id='hora' disabled={tf11}>11:00</option>
+                        <option id='hora' disabled={tf12}>12:00</option>
+                        <option id='hora' disabled={tf13}>13:00</option>
+                        <option id='hora' disabled={tf14}>14:00</option>
+                        <option id='hora' disabled={tf15}>15:00</option>
+                        <option id='hora' disabled={tf16}>16:00</option>
+                        <option id='hora' disabled={tf17}>17:00</option>
                       </select>
                     </div>
                   </div>
-                  <div className="form-group-r">
-                    <div className="modal-name">
-                      <select className="form-control-r" ref={sede => this.inputSede = sede}>
-                        <option id='sede'>Pachuca de Soto</option>
-                        <option id='sede'>Huejutla</option>
-                      </select>
-                    </div>
-                  </div>
+
                   <div className="form-group-r hidden">
                     <div className="modal-name">
                       <input
@@ -399,7 +438,7 @@ class Home extends Component {
                       </div>
                       <div className="column-t">
                         <p className="name-size">Ubicación</p>
-                        <p className="name-size2">{this.state.sede}</p>
+                        <p className="name-size2">Pachuca de Soto</p>
                       </div>
                       <div className="column-t">
                         <p className="name-size">Observaciones</p>
@@ -423,4 +462,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default HomeP;
