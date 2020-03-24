@@ -126,7 +126,7 @@ class HomeP extends Component {
     if (today && n > 7) {
       tf8 = true;
       console.log('primer if ' + tf8)
-      if (fecha && n > 7 && fecha != today) {
+      if (fecha && n > 7 && fecha !== today) {
         tf8 = false;
         console.log(tf8)
       }
@@ -134,7 +134,7 @@ class HomeP extends Component {
     if (today && n > 8) {
       tf9 = true;
       console.log('primer if ' + tf9)
-      if (fecha && n > 8 && fecha != today) {
+      if (fecha && n > 8 && fecha !== today) {
         tf9 = false;
         console.log(tf9)
       }
@@ -142,7 +142,7 @@ class HomeP extends Component {
     if (today && n > 9) {
       tf10 = true;
       console.log('primer if ' + tf10)
-      if (fecha && n > 9 && fecha != today) {
+      if (fecha && n > 9 && fecha !== today) {
         tf10 = false;
         console.log(tf10)
       }
@@ -150,7 +150,7 @@ class HomeP extends Component {
     if (today && n > 10) {
       tf11 = true;
       console.log('primer if ' + tf11)
-      if (fecha && n > 10 && fecha != today) {
+      if (fecha && n > 10 && fecha !== today) {
         tf11 = false;
         console.log(tf11)
       }
@@ -158,7 +158,7 @@ class HomeP extends Component {
     if (today && n > 11) {
       tf12 = true;
       console.log('primer if ' + tf12)
-      if (fecha && n > 11 && fecha != today) {
+      if (fecha && n > 11 && fecha !== today) {
         tf12 = false;
         console.log(tf12)
       }
@@ -166,7 +166,7 @@ class HomeP extends Component {
     if (today && n > 12) {
       tf13 = true;
       console.log('primer if ' + tf13)
-      if (fecha && n > 12 && fecha != today) {
+      if (fecha && n > 12 && fecha !== today) {
         tf13 = false;
         console.log(tf13)
       }
@@ -174,7 +174,7 @@ class HomeP extends Component {
     if (today && n > 13) {
       tf14 = true;
       console.log('primer if ' + tf14)
-      if (fecha && n > 13 && fecha != today) {
+      if (fecha && n > 13 && fecha !== today) {
         tf14 = false;
         console.log(tf14)
       }
@@ -182,7 +182,7 @@ class HomeP extends Component {
     if (today && n > 14) {
       tf15 = true;
       console.log('primer if ' + tf15)
-      if (fecha && n > 14 && fecha != today) {
+      if (fecha && n > 14 && fecha !== today) {
         tf15 = false;
         console.log(tf15)
       }
@@ -190,7 +190,7 @@ class HomeP extends Component {
     if (today && n > 15) {
       tf16 = true;
       console.log('primer if ' + tf16)
-      if (fecha && n > 15 && fecha != today) {
+      if (fecha && n > 15 && fecha !== today) {
         tf16 = false;
         console.log(tf16)
       }
@@ -198,7 +198,7 @@ class HomeP extends Component {
     if (today && n > 16) {
       tf17 = true;
       console.log('primer if ' + tf17)
-      if (fecha && n > 16 && fecha != today) {
+      if (fecha && n > 16 && fecha !== today) {
         tf17 = false;
         console.log(tf17)
       }

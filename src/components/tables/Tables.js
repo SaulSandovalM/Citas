@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import './Tables.css';
 import {Link} from 'react-router-dom';
 
@@ -12,7 +12,7 @@ class Tablas extends Component {
         <br></br>
         <div style={{width: '100%', justifyContent: 'center', display: 'flex'}}>
           <div style={{justifyContent: 'center', display: 'flex', zIndex: '999', position: 'absolute', alignItems: 'center'}}>
-            <img src={'https://upload.wikimedia.org/wikipedia/commons/4/4e/Escudo_de_Armas_Oficial_del_Estado_de_Hidalgo.png'} style={{width: '300px'}}/>
+            <img src={'https://upload.wikimedia.org/wikipedia/commons/4/4e/Escudo_de_Armas_Oficial_del_Estado_de_Hidalgo.png'} style={{width: '300px'}} alt=''/>
           </div>
         </div>
         <div className="row-options">
