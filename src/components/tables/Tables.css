@@ -85,3 +85,6 @@ body > .print-source {
   width: 25%;
   height: 25%;
 }
+.hidden {
+  visibility: hidden;
+}

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Routes} from './Routes';
-//import Nav from './components/nav/Nav';
+import Nav from './components/nav/Nav';
 import Footer from './components/footer/Footer';
-//import SideDrawer from './components/sidedrawer/SideDrawer';
-//import Backdrop from './components/backdrop/Backdrop';
+import SideDrawer from './components/sidedrawer/SideDrawer';
+import Backdrop from './components/backdrop/Backdrop';
 
 class App extends Component {
   state = {
@@ -25,17 +25,17 @@ class App extends Component {
   };
 
   render() {
-    //let backdrop;
+    let backdrop;
 
-    //if (this.state.sideDrawerOpen) {
-      //backdrop = <Backdrop click={this.backdropClickHandler} />;
-    //}
+    if (this.state.sideDrawerOpen) {
+      backdrop = <Backdrop click={this.backdropClickHandler} />;
+    }
 
     return (
       <div className="nav-height-app">
-        {/*<Nav drawerClickHandler={this.drawerToggleClickHandler}/>
+        <Nav drawerClickHandler={this.drawerToggleClickHandler}/>
         <SideDrawer show={this.state.sideDrawerOpen}/>
-        {backdrop}*/}
+        {backdrop}
         <Routes />
         <Footer />
       </div>
