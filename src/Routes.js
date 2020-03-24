@@ -5,7 +5,8 @@ import HomeH from './components/home/HomeH';
 import Tablas from './components/tables/Tables';
 import TablaPachuca from "./components/tables/pachuca/TablaPachuca";
 import TablaHuejutla from "./components/tables/huejutla/TablaHuejutla";
-import LoginContainer from "./components/login/LoginContainer";
+import LoginContainerP from "./components/login/loginpachuca/LoginContainer";
+import LoginContainerH from "./components/login/loginhuejutla/LoginContainer";
 
 export const Routes = () => (
   <Switch>
@@ -14,6 +15,7 @@ export const Routes = () => (
     <Route exact path="/HomeHuejutla" component={HomeH}/>
     <Route exact path="/CitasPachuca" component={TablaPachuca} />
     <Route exact path="/CitasHuejutla" component={TablaHuejutla} />
-    <Route exact path="/Login" component={LoginContainer} />
+    <Route exact path="/LoginPachuca" component={LoginContainerP} />
+    <Route exact path="/LoginHuejutla" component={LoginContainerH} />
   </Switch>
 );

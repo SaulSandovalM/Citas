@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Login from "./Login";
-import './Login.css'
+import '../Login.css'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as usuarioActions from '../../actions/usuarioActions';
+import * as usuarioActions from '../../../actions/usuarioActions';
 
 const containerStyle = {
   height: '100vh',
@@ -12,7 +12,7 @@ const containerStyle = {
   justifyContent: 'center',
 };
 
-class LoginContainer extends Component {
+class LoginContainerH extends Component {
   state = {
     showDrawer : false
   };
@@ -43,7 +43,7 @@ class LoginContainer extends Component {
     console.log(user.email + user.password);
     this.props.usuarioActions.iniciarSesion(user)
     .then( () => {
-        this.props.history.push('/TablePachuca');
+        this.props.history.push('/CitasPachuca');
     });
   };
 
@@ -84,4 +84,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps) (LoginContainer);
+export default connect(mapStateToProps,mapDispatchToProps) (LoginContainerH);
