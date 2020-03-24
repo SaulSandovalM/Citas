@@ -6,6 +6,7 @@ import ReactToPrint from 'react-to-print';
 class HomeP extends Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       form: [],
       alert: false,
@@ -17,6 +18,10 @@ class HomeP extends Component {
       hora: '',
       isHidden: true
     };
+  }
+
+  handleChange(e) {
+    this.setState({fecha: e.target.value});
   }
 
   showAlert(type, message) {
@@ -100,7 +105,10 @@ class HomeP extends Component {
             mm='0'+mm
         }
 
-    today = yyyy+'-'+mm+'-'+dd;
+    today = yyyy + '-' + mm + '-' + dd;
+
+    const fecha = this.state.fecha;
+    console.log(fecha)
 
     var d = new Date();
     var n = d.getHours();
@@ -117,54 +125,83 @@ class HomeP extends Component {
 
     if (today && n > 7) {
       tf8 = true;
-    } else {
-      tf8 = false;
+      console.log('primer if ' + tf8)
+      if (fecha && n > 7 && fecha != today) {
+        tf8 = false;
+        console.log(tf8)
+      }
     }
-    if (n > 8){
+    if (today && n > 8) {
       tf9 = true;
-    } else {
-      tf9 = false;
+      console.log('primer if ' + tf9)
+      if (fecha && n > 8 && fecha != today) {
+        tf9 = false;
+        console.log(tf9)
+      }
     }
-    if (n > 9){
+    if (today && n > 9) {
       tf10 = true;
-    } else {
-      tf10 = false;
+      console.log('primer if ' + tf10)
+      if (fecha && n > 9 && fecha != today) {
+        tf10 = false;
+        console.log(tf10)
+      }
     }
-    if (n > 10){
+    if (today && n > 10) {
       tf11 = true;
-    } else {
-      tf11 = false;
+      console.log('primer if ' + tf11)
+      if (fecha && n > 10 && fecha != today) {
+        tf11 = false;
+        console.log(tf11)
+      }
     }
-    if (n > 11){
+    if (today && n > 11) {
       tf12 = true;
-    } else {
-      tf12 = false;
+      console.log('primer if ' + tf12)
+      if (fecha && n > 11 && fecha != today) {
+        tf12 = false;
+        console.log(tf12)
+      }
     }
-    if (n > 12){
+    if (today && n > 12) {
       tf13 = true;
-    } else {
-      tf13 = false;
+      console.log('primer if ' + tf13)
+      if (fecha && n > 12 && fecha != today) {
+        tf13 = false;
+        console.log(tf13)
+      }
     }
-    if (n > 13){
+    if (today && n > 13) {
       tf14 = true;
-    } else {
-      tf14 = false;
+      console.log('primer if ' + tf14)
+      if (fecha && n > 13 && fecha != today) {
+        tf14 = false;
+        console.log(tf14)
+      }
     }
-    if (n > 14){
+    if (today && n > 14) {
       tf15 = true;
+      console.log('primer if ' + tf15)
+      if (fecha && n > 14 && fecha != today) {
+        tf15 = false;
+        console.log(tf15)
+      }
     }
-    else {
-      tf15 = false;
-    }
-    if (n > 15){
+    if (today && n > 15) {
       tf16 = true;
-    } else {
-      tf16 = false;
+      console.log('primer if ' + tf16)
+      if (fecha && n > 15 && fecha != today) {
+        tf16 = false;
+        console.log(tf16)
+      }
     }
-    if (n > 16){
+    if (today && n > 16) {
       tf17 = true;
-    } else {
-      tf17 = false;
+      console.log('primer if ' + tf17)
+      if (fecha && n > 16 && fecha != today) {
+        tf17 = false;
+        console.log(tf17)
+      }
     }
 
     return (
@@ -388,6 +425,8 @@ class HomeP extends Component {
                         id='fecha'
                         placeholder='Fecha'
                         required
+                        value={fecha}
+                        onChange={this.handleChange}
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
                     <div className='porcent-r2'>
