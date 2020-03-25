@@ -6,7 +6,6 @@ class TablePachuca extends Component {
   constructor () {
     super();
     this.state = {
-      user: null,
       agendaCita: [],
     };
   }
@@ -19,18 +18,22 @@ class TablePachuca extends Component {
     });
   }
 
-  borrar = (agendaCita) => {
-    firebaseConf.database().ref().child('/agenda-cita/')
-        .set({ status: "New title"});
-  }
+  update() {
+    //var currentUser = firebaseConf.auth().key;
+    //firebaseConf.database().ref("agenda-cita/pachuca/" + currentUser).update({ status: "Perro"});
 
-//  update = (data) {
-  //  firebaseConf.database().ref('agenda-cita').update(
-    //  {
-      //  status: 'atendido',
-      //},
-    //);
-  //}
+
+    //firebaseConf.database().ref('agenda-cita/pachuca/').on('child_added', snapshot => {
+      //firebaseConf.database().ref('agenda-cita/pachuca/'+snapshot.key).update({status: 'No Atendido'});
+    //});
+
+    const deedRef = firebaseConf.database().ref('agenda-cita/pachuca/');
+    deedRef.limitToLast(2).once("value", (snapshot) => {
+        snapshot.forEach((deedSnapshot) =>{
+             deedSnapshot.ref.update({ status: "Perro"});
+        })
+    })
+  }
 
   updateSearch(event) {
     this.setState({search: event.target.value.substr(0,20)});
@@ -66,7 +69,7 @@ class TablePachuca extends Component {
               <div className="data-table">{agendaCita.fecha} - {agendaCita.hora}</div>
               <div className="data-table">
                 {agendaCita.status}
-                <button style={{background: 'grey', color: 'white'}} borrar={this.borrar}>Atendido</button>
+                <button style={{background: 'grey', color: 'white'}} onClick={this.update}>Atendido</button>
               </div>
             </div>
           )).reverse()
