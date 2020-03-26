@@ -204,6 +204,11 @@ class HomeP extends Component {
       }
     }
 
+    var cadena = fecha,
+    patron = "-",
+    nuevoValor    = "",
+    nuevaCadena = cadena.replace(patron, nuevoValor);
+
     return (
       <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px'}}>
         <div style={{justifyContent: 'left', zIndex: '200'}}>
@@ -459,13 +464,15 @@ class HomeP extends Component {
                     <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
                   {!this.state.isHidden && <ReactToPrint
-                    trigger={() => <a href="/#">Imprimie aqui tu Ticket</a>}
+                    trigger={() => <h3 style={{textDecoration: 'underline', color: 'blue'}}>Imprimie aqui tu Ticket</h3>}
                     content={() => this.componentRef}
                   />}
                   <div className='print-source' style={{padding: '20px'}} ref={el => (this.componentRef = el)}>
                     <div className="row-ti">
                       <img src={'https://firebasestorage.googleapis.com/v0/b/citas-f171e.appspot.com/o/5e74eab95d5a0_1584720603_5e74eab95d53b%20(1).png?alt=media&token=08fc00ea-9814-4419-a6d0-549e03bbcb00'} alt='' className='img-cc'/>
                       <div className="column-t">
+                        <p className="name-size">Folio de Atención</p>
+                        <p className="name-size3">{nuevaCadena}</p>
                         <p className="name-size">Cita</p>
                         <p className="name-size2">{this.state.fecha}, {this.state.hora}</p>
                       </div>

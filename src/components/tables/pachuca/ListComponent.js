@@ -23,7 +23,6 @@ class ListComponent extends Component {
    this.setState({search: event.target.value.substr(0,20)});
  }
 
-
   render() {
 
     let filterData = this.state.agendaCita.filter(
@@ -35,7 +34,6 @@ class ListComponent extends Component {
     return (
       <div className="App" style={{height: '100vh'}}>
         <h1>Citas</h1>
-        <input type="text" value={13} onChange={this.updateSearch.bind(this)}/>
         <div className="products-al">
           <div className="col-table">Nombre</div>
           <div className="col-table">Correo</div>
@@ -45,7 +43,7 @@ class ListComponent extends Component {
           <div className="col-table">Estatus</div>
         </div>
         {
-          filterData.map(item =>
+          this.props.lista.map(item =>
             <RowComponent
               key={item.id}
               item={item}
