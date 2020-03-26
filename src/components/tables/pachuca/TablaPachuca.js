@@ -1,79 +1,77 @@
 import React, { Component } from 'react';
 import '../Tables.css';
 import firebaseConf from '../../../Firebase';
+import ListComponent from './ListComponent';
 
 class TablePachuca extends Component {
-  constructor () {
+  constructor(){
     super();
     this.state = {
-      agendaCita: [],
-    };
+      nuevo: '',
+      lista: [
+        {
+          id: 1,
+          name: 'preuba',
+          done: false
+        },
+      ]
+    }
   }
 
-  componentWillMount () {
-    firebaseConf.database().ref('agenda-cita/pachuca').on('child_added', snapshot => {
+  listenForItems = (itemsRef) => {
+    itemsRef.on('value', (snap) => {
+      var lista = [];
+      snap.forEach((child) => {
+        lista.push({
+          nombre: child.val().nombre,
+          apellidop: child.val().apellidop,
+          apellidom: child.val().apellidom,
+          colonia: child.val().colonia,
+          email: child.val().email,
+          fecha: child.val().fecha,
+          hora: child.val().hora,
+          municipio: child.val().municipio,
+          rfc: child.val().rfc,
+          status: child.val().status,
+          done: child.val().done,
+          id: child.key
+        });
+      });
       this.setState({
-        agendaCita: this.state.agendaCita.concat(snapshot.val())
+        lista: lista
       });
     });
   }
 
-  update() {
-    //var currentUser = firebaseConf.auth().key;
-    //firebaseConf.database().ref("agenda-cita/pachuca/" + currentUser).update({ status: "Perro"});
-
-
-    //firebaseConf.database().ref('agenda-cita/pachuca/').on('child_added', snapshot => {
-      //firebaseConf.database().ref('agenda-cita/pachuca/'+snapshot.key).update({status: 'No Atendido'});
-    //});
-
-    const deedRef = firebaseConf.database().ref('agenda-cita/pachuca/');
-    deedRef.limitToLast(2).once("value", (snapshot) => {
-        snapshot.forEach((deedSnapshot) =>{
-             deedSnapshot.ref.update({ status: "Perro"});
-        })
-    })
+  componentDidMount() {
+    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca');
+    this.listenForItems(itemsRef);
   }
 
-  updateSearch(event) {
-    this.setState({search: event.target.value.substr(0,20)});
+  update = (item) => {
+    let updates = {};
+    updates['agenda-cita/pachuca/' + item.id] = {
+      status: "Atendido",
+      nombre: item.nombre,
+      apellidop: item.apellidop,
+      apellidom: item.apellidom,
+      colonia: item.colonia,
+      email: item.email,
+      fecha: item.fecha,
+      hora: item.hora,
+      municipio: item.municipio,
+      rfc: item.rfc,
+    };
+    firebaseConf.database().ref().update(updates);
   }
 
   render() {
-
-    let filterData = this.state.agendaCita.filter(
-      (agendaCita) => {
-        return agendaCita.hora.indexOf(this.state.search) !== -1;
-      }
-    );
-
     return (
       <div className="App" style={{height: '100vh'}}>
-        <h1>Citas</h1>
-        <input type="text" value={this.state.search} onChange={this.updateSearch.bind(this)}/>
-          <div className="products-al">
-            <div className="col-table">Nombre</div>
-            <div className="col-table">Correo</div>
-            <div className="col-table">RFC</div>
-            <div className="col-table">Municipio</div>
-            <div className="col-table">Fecha/Hora</div>
-            <div className="col-table">Estatus</div>
-          </div>
-        {
-          filterData.map(agendaCita => (
-            <div className="products-al">
-              <div className="data-table">{agendaCita.nombre} {agendaCita.apellidop} {agendaCita.apellidom}</div>
-              <div className="data-table">{agendaCita.email}</div>
-              <div className="data-table">{agendaCita.rfc}</div>
-              <div className="data-table">{agendaCita.municipio}</div>
-              <div className="data-table">{agendaCita.fecha} - {agendaCita.hora}</div>
-              <div className="data-table">
-                {agendaCita.status}
-                <button style={{background: 'grey', color: 'white'}} onClick={this.update}>Atendido</button>
-              </div>
-            </div>
-          )).reverse()
-        }
+        <ListComponent
+            lista={this.state.lista}
+            update={this.update}
+        />
       </div>
     );
   }
