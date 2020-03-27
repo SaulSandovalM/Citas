@@ -108,7 +108,12 @@ class HomeH extends Component {
     today = yyyy + '-' + mm + '-' + dd;
 
     const fecha = this.state.fecha;
-    console.log(fecha)
+
+    var cadena = fecha,
+    patron = "-",
+    nuevoValor = "",
+    nuevaCadena = cadena.replace(patron, nuevoValor);
+    var folio = nuevaCadena.replace(patron, nuevoValor);
 
     var d = new Date();
     var n = d.getHours();
@@ -459,13 +464,15 @@ class HomeH extends Component {
                     <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
                   {!this.state.isHidden && <ReactToPrint
-                    trigger={() => <a href="/#">Imprimie aqui tu Ticket</a>}
+                    trigger={() => <a >Imprimie aqui tu Ticket</a>}
                     content={() => this.componentRef}
                   />}
                   <div className='print-source' style={{padding: '20px'}} ref={el => (this.componentRef = el)}>
                     <div className="row-ti">
                       <img src={'https://firebasestorage.googleapis.com/v0/b/citas-f171e.appspot.com/o/5e74eab95d5a0_1584720603_5e74eab95d53b%20(1).png?alt=media&token=08fc00ea-9814-4419-a6d0-549e03bbcb00'} alt='' className='img-cc'/>
                       <div className="column-t">
+                        <p className="name-size">Folio de Atención</p>
+                        <p className="name-size3">{folio}</p>
                         <p className="name-size">Cita</p>
                         <p className="name-size2">{this.state.fecha}, {this.state.hora}</p>
                       </div>

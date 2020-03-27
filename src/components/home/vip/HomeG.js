@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './Home.css';
-import firebaseConf from '../../Firebase';
+import '../Home.css';
+import firebaseConf from '../../../Firebase';
 import ReactToPrint from 'react-to-print';
 
-class HomeP extends Component {
+class HomeG extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -16,6 +16,8 @@ class HomeP extends Component {
       apellidom: '',
       fecha: '',
       hora: '',
+      pref: '',
+      sede: '',
       isHidden: true
     };
   }
@@ -45,14 +47,10 @@ class HomeP extends Component {
  }
 
   componentWillMount() {
-    let formRef = firebaseConf
-      .database()
-      .ref('agenda-cita/pachuca')
-      .orderByKey()
-      .limitToLast(6);
+    let formRef = firebaseConf.database().ref('agenda-cita/vip').orderByKey().limitToLast(6);
     formRef.on('child_added', snapshot => {
-      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc} = snapshot.val();
-      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc};
+      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, pref, sede} = snapshot.val();
+      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, pref, sede};
       this.setState({form: [data].concat(this.state.form)});
     });
   }
@@ -69,7 +67,9 @@ class HomeP extends Component {
       hora: this.inputHora.value,
       email: this.inputEmail.value,
       rfc: this.inputRfc.value,
-      status: this.inputStatus.value
+      status: this.inputStatus.value,
+      pref: this.inputPref.value,
+      sede: this.inputSede.value
     };
     this.setState({
       nombre: this.inputNombre.value,
@@ -77,10 +77,12 @@ class HomeP extends Component {
       apellidom: this.inputApellidom.value,
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
+      pref: this.inputPref.value,
+      sede: this.inputSede.value
     })
-    if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email
-      && params.colonia && params.fecha && params.hora && params.status && params.rfc) {
-      firebaseConf.database().ref('agenda-cita/pachuca').push(params).then(() => {
+    if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email && params.sede
+      && params.colonia && params.fecha && params.hora && params.status && params.rfc && params.pref) {
+      firebaseConf.database().ref('agenda-cita/vip').push(params).then(() => {
         this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
       }).catch(() => {
         this.showAlert('danger', 'Tu solicitud no puede ser enviada');
@@ -105,7 +107,7 @@ class HomeP extends Component {
             mm='0'+mm
         }
 
-     today = yyyy + '-' + mm + '-' + dd;
+    today = yyyy + '-' + mm + '-' + dd;
 
     const fecha = this.state.fecha;
 
@@ -218,52 +220,7 @@ class HomeP extends Component {
             </div>
           </div>}
         </div>
-        <div style={{width: '65%'}}>
-          <h1 className="back-title">Expedición de Constancia de NO Antecedentes Penales</h1>
-          <div className="row">
-            <div className="text">
-              <h5 className="title-r">Requisitos</h5>
-              <p className="size">
-                Si Usted Radica en México.
-                <br></br><br></br>
-                1.- Recibo de pago (formato F-7)
-                <br></br>
-                2.- Una Copia de constancia de la  Clave Única de Registro de Población (CURP) actualizada (código QR)
-                <br></br>
-                3.- Una Copia de Identificación Oficial (INE)
-                <br></br>
-                4.- Una Fotografía a color tamaño pasaporte fondo blanco.
-                <br></br><br></br>
-                Si Usted radica en el Extranjero
-                <br></br><br></br>
-                1. Oficio del consulado dirigido a la  Procuraduría General de Justicia del Estado de Hidalgo
-                <br></br>
-                2. Toma de Huellas por el Consulado
-                <br></br>
-                3. Copia de identificación oficial (INE, Cartilla, Pasaporte o Matricula)
-                <br></br>
-                4. Una Copia de constancia de la  Clave Única de Registro de Población (CURP) actualizada (código QR)
-                <br></br>
-                5. 2 fotografías tamaño credencial a color de frente
-                <br></br>
-                6. Comprobante de Domicilio donde radica el interesado
-                <br></br>
-                7. Carta poder
-                <br></br>
-                8. Credencial original y copia de la persona que realiza el tramite
-                <br></br>
-                9. Recibo de pago (formato F-7) <a href="https://ruts.hidalgo.gob.mx/tramite/572">Desacargar formato de pago</a>
-              </p>
-            </div>
-            <div className="text">
-              <h5 className="title-r">Ubicación</h5>
-              <p>Servicios Periciales Pachuca</p>
-              <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
-              <h5 className="title-r">Informes</h5>
-              <p>Para mas informacion favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
-            </div>
-          </div>
-
+        <div style={{width: '70%'}}>
           <div style={{width: '100%', marginBottom: '100px'}}>
             <h1 className="back-title">Agenda tu Cita</h1>
             <div className="row2">
@@ -435,7 +392,7 @@ class HomeP extends Component {
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
                     <div className='porcent-r2'>
-                      <select className="form-control-r" ref={hora => this.inputHora = hora}>
+                      <select className="form-control-r" ref={hora => this.inputHora = hora} required>
                         <option id='hora' disabled={tf8}>8:00</option>
                         <option id='hora' disabled={tf9}>9:00</option>
                         <option id='hora' disabled={tf10}>10:00</option>
@@ -449,7 +406,21 @@ class HomeP extends Component {
                       </select>
                     </div>
                   </div>
-
+                  <div className="card-container-r2">
+                    <div className='porcent-r'>
+                      <select className="form-control-r" ref={pref => this.inputPref = pref} required>
+                        <option id='pref'>Cita Telefonica</option>
+                        <option id='pref'>Cita Preferencial</option>
+                        <option id='pref'>Cita Especial</option>
+                      </select>
+                    </div>
+                    <div className='porcent-r2'>
+                      <select className="form-control-r" ref={sede => this.inputSede = sede} required>
+                        <option id='sede'>Pachuca de Soto</option>
+                        <option id='sede'>Huejutla</option>
+                      </select>
+                    </div>
+                  </div>
                   <div className="form-group-r hidden">
                     <div className="modal-name">
                       <input
@@ -508,4 +479,4 @@ class HomeP extends Component {
   }
 }
 
-export default HomeP;
+export default HomeG;
