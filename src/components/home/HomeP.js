@@ -16,6 +16,7 @@ class HomeP extends Component {
       apellidom: '',
       fecha: '',
       hora: '',
+      folio: '',
       isHidden: true
     };
   }
@@ -51,8 +52,8 @@ class HomeP extends Component {
       .orderByKey()
       .limitToLast(6);
     formRef.on('child_added', snapshot => {
-      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc} = snapshot.val();
-      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc};
+      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio} = snapshot.val();
+      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio};
       this.setState({form: [data].concat(this.state.form)});
     });
   }
@@ -69,7 +70,8 @@ class HomeP extends Component {
       hora: this.inputHora.value,
       email: this.inputEmail.value,
       rfc: this.inputRfc.value,
-      status: this.inputStatus.value
+      status: this.inputStatus.value,
+      folio: this.inputFolio.value
     };
     this.setState({
       nombre: this.inputNombre.value,
@@ -77,9 +79,10 @@ class HomeP extends Component {
       apellidom: this.inputApellidom.value,
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
+      folio: this.inputFolio.value,
     })
     if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email
-      && params.colonia && params.fecha && params.hora && params.status && params.rfc) {
+      && params.colonia && params.fecha && params.hora && params.status && params.rfc && params.folio) {
       firebaseConf.database().ref('agenda-cita/pachuca').push(params).then(() => {
         this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
       }).catch(() => {
@@ -98,14 +101,13 @@ class HomeP extends Component {
     var dd = today.getDate();
     var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
-     if(dd<10){
-            dd='0'+dd
-        }
-        if(mm<10){
-            mm='0'+mm
-        }
-
-     today = yyyy + '-' + mm + '-' + dd;
+    if ( dd < 10 ){
+      dd = '0' + dd
+    }
+    if ( mm < 10 ){
+      mm = '0' + mm
+    }
+    today = yyyy + '-' + mm + '-' + dd;
 
     const fecha = this.state.fecha;
 
@@ -233,6 +235,8 @@ class HomeP extends Component {
                 3.- Una Copia de Identificación Oficial (INE)
                 <br></br>
                 4.- Una Fotografía a color tamaño pasaporte fondo blanco.
+                <br></br>
+                5. Recibo de pago (formato F-7) <a href="https://ruts.hidalgo.gob.mx/tramite/572">Desacargar formato de pago</a>
                 <br></br><br></br>
                 Si Usted radica en el Extranjero
                 <br></br><br></br>
@@ -240,7 +244,7 @@ class HomeP extends Component {
                 <br></br>
                 2. Toma de Huellas por el Consulado
                 <br></br>
-                3. Copia de identificación oficial (INE, Cartilla, Pasaporte o Matricula)
+                3. Copia de identificación oficial (INE, Cartilla, Pasaporte o Matrícula)
                 <br></br>
                 4. Una Copia de constancia de la  Clave Única de Registro de Población (CURP) actualizada (código QR)
                 <br></br>
@@ -250,17 +254,18 @@ class HomeP extends Component {
                 <br></br>
                 7. Carta poder
                 <br></br>
-                8. Credencial original y copia de la persona que realiza el tramite
+                8. Credencial original y copia de la persona que realiza el trámite
                 <br></br>
                 9. Recibo de pago (formato F-7) <a href="https://ruts.hidalgo.gob.mx/tramite/572">Desacargar formato de pago</a>
               </p>
             </div>
-            <div className="text">
+            <div className="text" style={{paddingLeft: '50px'}}>
               <h5 className="title-r">Ubicación</h5>
               <p>Servicios Periciales Pachuca</p>
+              <p>Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</p>
               <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
               <h5 className="title-r">Informes</h5>
-              <p>Para mas informacion favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
+              <p>Para más información favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
             </div>
           </div>
 
@@ -460,6 +465,17 @@ class HomeP extends Component {
                         ref={status => this.inputStatus = status} />
                     </div>
                   </div>
+                  <div className="form-group-r hidden">
+                    <div className="modal-name">
+                      <input
+                        type='numeric'
+                        className="form-control-r"
+                        id='folio'
+                        value={folio}
+                        ref={folio => this.inputFolio = folio} />
+                    </div>
+                  </div>
+
                   <div className="presentation-cta">
                     <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
