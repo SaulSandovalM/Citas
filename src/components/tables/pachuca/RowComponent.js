@@ -38,7 +38,7 @@ class RowComponent extends Component {
     var trans = parseInt(horaC);
     let table;
 
-    if (fechaC == today && trans >= n) {
+    if (fechaC === today && trans >= n && sedeC === 'Pachua de Soto') {
       table =
         <div className="products-al">
           <div className="data-table">{this.props.item.nombre} {this.props.item.apellidop} {this.props.item.apellidom}</div>

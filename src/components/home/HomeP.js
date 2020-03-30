@@ -17,6 +17,7 @@ class HomeP extends Component {
       fecha: '',
       hora: '',
       folio: '',
+      sede: '',
       isHidden: true
     };
   }
@@ -52,8 +53,8 @@ class HomeP extends Component {
       .orderByKey()
       .limitToLast(6);
     formRef.on('child_added', snapshot => {
-      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio} = snapshot.val();
-      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio};
+      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede} = snapshot.val();
+      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede};
       this.setState({form: [data].concat(this.state.form)});
     });
   }
@@ -71,7 +72,8 @@ class HomeP extends Component {
       email: this.inputEmail.value,
       rfc: this.inputRfc.value,
       status: this.inputStatus.value,
-      folio: this.inputFolio.value
+      folio: this.inputFolio.value,
+      sede: this.inputSede.value
     };
     this.setState({
       nombre: this.inputNombre.value,
@@ -80,8 +82,9 @@ class HomeP extends Component {
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
       folio: this.inputFolio.value,
+      sede: this.inputSede.value
     })
-    if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email
+    if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email && params.sede
       && params.colonia && params.fecha && params.hora && params.status && params.rfc && params.folio) {
       firebaseConf.database().ref('agenda-cita/pachuca').push(params).then(() => {
         this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
@@ -259,13 +262,13 @@ class HomeP extends Component {
                 9. Recibo de pago (formato F-7) <a href="https://ruts.hidalgo.gob.mx/tramite/572">Desacargar formato de pago</a>
               </p>
             </div>
-            <div className="text" style={{paddingLeft: '50px'}}>
+            <div className="text2-res">
               <h5 className="title-r">Ubicación</h5>
-              <p>Servicios Periciales Pachuca</p>
-              <p>Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</p>
+              <p className="size">Servicios Periciales Pachuca</p>
+              <p className="size">Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</p>
               <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
               <h5 className="title-r">Informes</h5>
-              <p>Para más información favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
+              <p className="size">Para más información favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
             </div>
           </div>
 
@@ -324,8 +327,9 @@ class HomeP extends Component {
                         ref={rfc => this.inputRfc = rfc} />
                     </div>
                   </div>
-                  <div className="form-group-r">
-                    <div className="modal-name">
+
+                  <div className="card-container-r2">
+                    <div className='porcent-r'>
                       <select className="form-control-r" ref={municipio => this.inputMunicipio = municipio}>
                         <option id='municipio' required>Pachuca de Soto</option>
                         <option id='municipio' required>Acatlán</option>
@@ -413,6 +417,13 @@ class HomeP extends Component {
                         <option id='municipio' required>Zimapán</option>
                       </select>
                     </div>
+                    <div className='porcent-r2'>
+                      <select className="form-control-r" ref={sede => this.inputSede = sede}>
+                        <option id='sede'>Pachuca de Soto</option>
+                        <option id='sede'>Huejutla</option>
+                        <option id='sede'>Tulancingo</option>
+                      </select>
+                    </div>
                   </div>
                   <div className="form-group-r">
                     <div className="modal-name">
@@ -480,7 +491,7 @@ class HomeP extends Component {
                     <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
                   {!this.state.isHidden && <ReactToPrint
-                    trigger={() => <a >Imprimie aqui tu Ticket</a>}
+                    trigger={() => <button>Imprimie aqui tu Ticket</button>}
                     content={() => this.componentRef}
                   />}
                   <div className='print-source' style={{padding: '20px'}} ref={el => (this.componentRef = el)}>

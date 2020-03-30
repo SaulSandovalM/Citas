@@ -6,6 +6,11 @@
   display: flex;
   flex-direction: row;
 }
+@media (max-width: 768px) {
+  .legal {
+    display: none;
+  }
+}
 .img-f {
   width: 33.3%;
   height: 100%;
