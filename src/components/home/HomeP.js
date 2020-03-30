@@ -18,7 +18,9 @@ class HomeP extends Component {
       hora: '',
       folio: '',
       sede: '',
-      isHidden: true
+      isHidden: true,
+      random: 1100,
+      num: Math.floor((Math.random() * (111111-5))+5)
     };
   }
 
@@ -44,6 +46,11 @@ class HomeP extends Component {
    this.setState({
      isHidden: !this.state.isHidden
    })
+ }
+
+ folio(){
+   let num = Math.floor((Math.random() * (111111-5))+5);
+   console.log(num);
  }
 
   componentWillMount() {
@@ -82,7 +89,7 @@ class HomeP extends Component {
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
       folio: this.inputFolio.value,
-      sede: this.inputSede.value
+      sede: this.inputSede.value,
     })
     if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email && params.sede
       && params.colonia && params.fecha && params.hora && params.status && params.rfc && params.folio) {
@@ -113,12 +120,6 @@ class HomeP extends Component {
     today = yyyy + '-' + mm + '-' + dd;
 
     const fecha = this.state.fecha;
-
-    var cadena = fecha,
-    patron = "-",
-    nuevoValor = "",
-    nuevaCadena = cadena.replace(patron, nuevoValor);
-    var folio = nuevaCadena.replace(patron, nuevoValor);
 
     var d = new Date();
     var n = d.getHours();
@@ -213,6 +214,10 @@ class HomeP extends Component {
         console.log(tf17)
       }
     }
+
+    const num = Math.floor((Math.random() * (111111-5))+5);
+    console.log(num);
+
 
     return (
       <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px'}}>
@@ -482,13 +487,13 @@ class HomeP extends Component {
                         type='numeric'
                         className="form-control-r"
                         id='folio'
-                        value={folio}
+                        value={this.state.num}
                         ref={folio => this.inputFolio = folio} />
                     </div>
                   </div>
 
                   <div className="presentation-cta">
-                    <button type='submit' className="boton-color2">Confirmar</button>
+                    <button type='submit' className="boton-color2" onClick={this.folio}>Confirmar</button>
                   </div>
                   {!this.state.isHidden && <ReactToPrint
                     trigger={() => <button>Imprimie aqui tu Ticket</button>}
@@ -499,7 +504,7 @@ class HomeP extends Component {
                       <img src={'https://firebasestorage.googleapis.com/v0/b/citas-f171e.appspot.com/o/5e74eab95d5a0_1584720603_5e74eab95d53b%20(1).png?alt=media&token=08fc00ea-9814-4419-a6d0-549e03bbcb00'} alt='' className='img-cc'/>
                       <div className="column-t">
                         <p className="name-size">Folio de Atención</p>
-                        <p className="name-size3">{folio}</p>
+                        <p className="name-size3">{this.state.num}</p>
                         <p className="name-size">Cita</p>
                         <p className="name-size2">{this.state.fecha}, {this.state.hora}</p>
                       </div>
