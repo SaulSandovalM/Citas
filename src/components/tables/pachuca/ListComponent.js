@@ -24,7 +24,7 @@ class ListComponent extends Component {
     return (
       <div className="App" style={{height: '100vh'}}>
         <h1>Citas</h1>
-        <Link to='/Filter'>
+        <Link to='/Filter' style={{textDecoration: 'none'}}>
           <p>Buscar por Folio</p>
         </Link>
         <div className="products-al">
