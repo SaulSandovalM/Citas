@@ -19,8 +19,7 @@ class HomeP extends Component {
       folio: '',
       sede: '',
       isHidden: true,
-      random: 1100,
-      num: Math.floor((Math.random() * (111111-5))+5)
+      num: Math.floor((Math.random() * (111111-5))+5),
     };
   }
 
@@ -100,9 +99,26 @@ class HomeP extends Component {
     };
   }
 
+  addZero(x, n) {
+    while (x.toString().length < n) {
+      x = "0" + x;
+    }
+    return x;
+  }
+
   render() {
 
     var today = new Date();
+    {/*folio*/}
+    var h = (today.getHours(), 2);
+    var m = (today.getMinutes(), 2);
+    var s = (today.getSeconds(), 2);
+    var ms = (today.getMilliseconds(), 3);
+    var ffolio = h + m + s ;
+
+    console.log(ffolio)
+
+
     var dd = today.getDate();
     var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
@@ -115,6 +131,11 @@ class HomeP extends Component {
     today = yyyy + '-' + mm + '-' + dd;
 
     const fecha = this.state.fecha;
+    var cadena = fecha,
+    patron = "-",
+    nuevoValor = "",
+    nuevaCadena = cadena.replace(patron, nuevoValor);
+    var folio = nuevaCadena.replace(patron, nuevoValor);
 
     var d = new Date();
     var n = d.getHours();
@@ -211,7 +232,6 @@ class HomeP extends Component {
     }
 
     const num = Math.floor((Math.random() * (111111-5))+5);
-    console.log(num);
 
 
     return (
