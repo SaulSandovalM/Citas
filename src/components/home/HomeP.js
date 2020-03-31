@@ -48,11 +48,6 @@ class HomeP extends Component {
    })
  }
 
- folio(){
-   let num = Math.floor((Math.random() * (111111-5))+5);
-   console.log(num);
- }
-
   componentWillMount() {
     let formRef = firebaseConf
       .database()
@@ -493,7 +488,7 @@ class HomeP extends Component {
                   </div>
 
                   <div className="presentation-cta">
-                    <button type='submit' className="boton-color2" onClick={this.folio}>Confirmar</button>
+                    <button type='submit' className="boton-color2">Confirmar</button>
                   </div>
                   {!this.state.isHidden && <ReactToPrint
                     trigger={() => <button>Imprimie aqui tu Ticket</button>}
