@@ -527,10 +527,11 @@ class HomeP extends Component {
                   {!this.state.isHidden && <ReactToPrint
                     trigger={() => <button>Imprimie aqui tu Ticket</button>}
                     content={() => this.componentRef}
+                    onAfterPrint={this.toggleHidden.bind(this)}
                   />}
                   <div className='print-source' style={{padding: '20px'}} ref={el => (this.componentRef = el)}>
                     <div className="row-ti">
-                      <img src={'https://firebasestorage.googleapis.com/v0/b/citas-f171e.appspot.com/o/5e74eab95d5a0_1584720603_5e74eab95d53b%20(1).png?alt=media&token=08fc00ea-9814-4419-a6d0-549e03bbcb00'} alt='' className='img-cc'/>
+                      <img src={'https://seeklogo.com/images/G/gobierno-del-estado-de-hidalgo-logo-83001C1D96-seeklogo.com.png'} alt='' className='img-cc'/>
                       <div className="column-t">
                         <p className="name-size">Folio de Atención</p>
                         <p className="name-size3">{f}</p>
@@ -561,9 +562,6 @@ class HomeP extends Component {
             </div>
           </div>
         </div>
-        <div>
-
-      </div>
       </div>
     );
   }
