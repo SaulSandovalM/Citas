@@ -240,8 +240,6 @@ class HomeP extends Component {
       }
     }
 
-    const num = Math.floor((Math.random() * (111111-5))+5);
-
     return (
       <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px'}}>
         <div style={{justifyContent: 'left', zIndex: '200'}}>
