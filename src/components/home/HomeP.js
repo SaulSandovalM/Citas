@@ -19,7 +19,6 @@ class HomeP extends Component {
       folio: '',
       sede: '',
       isHidden: true,
-      num: Math.floor((Math.random() * (111111-5))+5),
     };
   }
 
@@ -46,6 +45,18 @@ class HomeP extends Component {
      isHidden: !this.state.isHidden
    })
  }
+
+  componentDidMount() {
+    const picker = document.getElementById('fecha');
+    picker.addEventListener('input', function(e){
+      var day = new Date(this.value).getUTCDay();
+      if([6,0].includes(day)){
+        e.preventDefault();
+        this.value = '';
+        alert('Este dia no se puede seleccionar');
+      }
+    });
+  }
 
   componentWillMount() {
     let formRef = firebaseConf
@@ -99,29 +110,27 @@ class HomeP extends Component {
     };
   }
 
-  addZero(x, n) {
-    while (x.toString().length < n) {
-      x = "0" + x;
-    }
-    return x;
-  }
-
   render() {
 
     var today = new Date();
-    {/*folio*/}
-    var h = (today.getHours(), 2);
-    var m = (today.getMinutes(), 2);
-    var s = (today.getSeconds(), 2);
-    var ms = (today.getMilliseconds(), 3);
-    var ffolio = h + m + s ;
+    var h = (today.getHours());
+    var m = (today.getMinutes());
+    var s = (today.getSeconds());
+    var ms = (today.getMilliseconds());
 
     console.log(ffolio)
-
 
     var dd = today.getDate();
     var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
+    var ffolio = dd + "-" + h + "-" + m + "-" + s ;
+    var fol = ffolio,
+    cosa = "-",
+    nuevo = "",
+    nuevaCadena = fol.replace(cosa, nuevo);
+    var f = nuevaCadena.replace(cosa, nuevo);
+
+
     if ( dd < 10 ){
       dd = '0' + dd
     }
@@ -233,7 +242,6 @@ class HomeP extends Component {
 
     const num = Math.floor((Math.random() * (111111-5))+5);
 
-
     return (
       <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px'}}>
         <div style={{justifyContent: 'left', zIndex: '200'}}>
@@ -285,8 +293,11 @@ class HomeP extends Component {
             <div className="text2-res">
               <h5 className="title-r">Ubicación</h5>
               <p className="size">Servicios Periciales Pachuca</p>
-              <p className="size">Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</p>
+              <p className="size"><i>Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</i></p>
               <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
+              <p className="size">Servicios Periciales Huejutla</p>
+              <p className="size"><i>Olimpia, 43000 Huejutla, Hgo.</i></p>
+              <a href="https://www.google.com.mx/maps/place/Agencia+del+Ministerio+Publico/@21.1496548,-98.4171,18z/data=!4m8!1m2!2m1!1sAgencia+de+Ministerio+P%C3%BAblico!3m4!1s0x85d727a12b89e037:0xb4b27e217d3f0a5e!8m2!3d21.1495294!4d-98.4171117">Abrir ubicación Google Maps</a>
               <h5 className="title-r">Informes</h5>
               <p className="size">Para más información favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
             </div>
@@ -299,50 +310,50 @@ class HomeP extends Component {
                 <form onSubmit={this.sendMessage.bind(this)} ref='contactForm'>
                   <div className="form-group-r">
                     <div className="modal-name">
+                      <label>Nombre:</label>
                       <input
                         type='text'
                         className="form-control-r"
                         id='nombre'
-                        placeholder='Nombre(s)'
                         required
                         ref={nombre => this.inputNombre = nombre} />
                     </div>
                   </div>
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Apellido Paterno:</label>
                       <input
                         type='text'
                         className="cell-r"
                         id='apellidop'
-                        placeholder='Apellido Paterno'
                         required
                         ref={apellidop => this.inputApellidop = apellidop} />
                     </div>
                     <div className='porcent-r2'>
+                      <label>Apellido Materno:</label>
                       <input
                         type='text'
                         className="cell-r"
                         id='apellidom'
-                        placeholder='Apellido Materno'
                         required
                         ref={apellidom => this.inputApellidom = apellidom} />
                     </div>
                   </div>
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Email:</label>
                       <input
                         type="text"
                         className="cell-r"
                         id='email'
-                        placeholder='Email'
                         ref={email => this.inputEmail = email} />
                     </div>
                     <div className='porcent-r2'>
+                      <label>RFC:</label>
                       <input
                         type='text'
                         className="cell-r"
                         id='rfc'
-                        placeholder='RFC'
                         maxLength={13}
                         ref={rfc => this.inputRfc = rfc} />
                     </div>
@@ -350,6 +361,7 @@ class HomeP extends Component {
 
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Municipio de procedencia:</label>
                       <select className="form-control-r" ref={municipio => this.inputMunicipio = municipio}>
                         <option id='municipio' required>Pachuca de Soto</option>
                         <option id='municipio' required>Acatlán</option>
@@ -438,6 +450,7 @@ class HomeP extends Component {
                       </select>
                     </div>
                     <div className='porcent-r2'>
+                      <label>Lugar a donde realizara el tramite:</label>
                       <select className="form-control-r" ref={sede => this.inputSede = sede}>
                         <option id='sede'>Pachuca de Soto</option>
                         <option id='sede'>Huejutla</option>
@@ -447,30 +460,31 @@ class HomeP extends Component {
                   </div>
                   <div className="form-group-r">
                     <div className="modal-name">
+                      <label>Colonia:</label>
                       <input
                         type='text'
                         className="form-control-r"
                         id='colonia'
-                        placeholder='Colonia'
                         required
                         ref={colonia => this.inputColonia = colonia} />
                     </div>
                   </div>
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Fecha de la cita:</label>
                       <input
                         min={today}
                         max="2020-06-26"
                         type="date"
                         className="cell-r"
                         id='fecha'
-                        placeholder='Fecha'
                         required
                         value={fecha}
                         onChange={this.handleChange}
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
                     <div className='porcent-r2'>
+                      <label>Hora de la cita:</label>
                       <select className="form-control-r" ref={hora => this.inputHora = hora}>
                         <option id='hora' disabled={tf8}>8:00</option>
                         <option id='hora' disabled={tf9}>9:00</option>
@@ -502,7 +516,7 @@ class HomeP extends Component {
                         type='numeric'
                         className="form-control-r"
                         id='folio'
-                        value={this.state.num}
+                        value={f}
                         ref={folio => this.inputFolio = folio} />
                     </div>
                   </div>
@@ -519,7 +533,7 @@ class HomeP extends Component {
                       <img src={'https://firebasestorage.googleapis.com/v0/b/citas-f171e.appspot.com/o/5e74eab95d5a0_1584720603_5e74eab95d53b%20(1).png?alt=media&token=08fc00ea-9814-4419-a6d0-549e03bbcb00'} alt='' className='img-cc'/>
                       <div className="column-t">
                         <p className="name-size">Folio de Atención</p>
-                        <p className="name-size3">{this.state.num}</p>
+                        <p className="name-size3">{f}</p>
                         <p className="name-size">Cita</p>
                         <p className="name-size2">{this.state.fecha}, {this.state.hora}</p>
                       </div>

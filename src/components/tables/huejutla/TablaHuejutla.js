@@ -3,7 +3,7 @@ import '../Tables.css';
 import firebaseConf from '../../../Firebase';
 import ListComponent from './ListComponent';
 
-class TablePachuca extends Component {
+class TableHuejutla extends Component {
   constructor(){
     super();
     this.state = {
@@ -34,6 +34,8 @@ class TablePachuca extends Component {
           rfc: child.val().rfc,
           status: child.val().status,
           done: child.val().done,
+          folio: child.val().folio,
+          sede: child.val().sede,
           id: child.key
         });
       });
@@ -44,13 +46,13 @@ class TablePachuca extends Component {
   }
 
   componentDidMount() {
-    const itemsRef = firebaseConf.database().ref('agenda-cita/huejutla');
+    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca');
     this.listenForItems(itemsRef);
   }
 
   update = (item) => {
     let updates = {};
-    updates['agenda-cita/huejutla/' + item.id] = {
+    updates['agenda-cita/pachuca/' + item.id] = {
       status: "Atendido",
       nombre: item.nombre,
       apellidop: item.apellidop,
@@ -61,6 +63,8 @@ class TablePachuca extends Component {
       hora: item.hora,
       municipio: item.municipio,
       rfc: item.rfc,
+      sede: item.sede,
+      folio: item.folio
     };
     firebaseConf.database().ref().update(updates);
   }
@@ -77,4 +81,4 @@ class TablePachuca extends Component {
   }
 }
 
-export default TablePachuca;
+export default TableHuejutla;

@@ -22,6 +22,18 @@ class HomeG extends Component {
     };
   }
 
+  componentDidMount() {
+    const picker = document.getElementById('fecha');
+    picker.addEventListener('input', function(e){
+      var day = new Date(this.value).getUTCDay();
+      if([6,0].includes(day)){
+        e.preventDefault();
+        this.value = '';
+        alert('Este dia no se puede seleccionar');
+      }
+    });
+  }
+
   handleChange(e) {
     this.setState({fecha: e.target.value});
   }
@@ -53,8 +65,8 @@ class HomeG extends Component {
       .orderByKey()
       .limitToLast(6);
     formRef.on('child_added', snapshot => {
-      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede} = snapshot.val();
-      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede};
+      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede, tipo} = snapshot.val();
+      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede, tipo};
       this.setState({form: [data].concat(this.state.form)});
     });
   }
@@ -73,7 +85,8 @@ class HomeG extends Component {
       rfc: this.inputRfc.value,
       status: this.inputStatus.value,
       folio: this.inputFolio.value,
-      sede: this.inputSede.value
+      sede: this.inputSede.value,
+      tipo: this.inputTipo.value
     };
     this.setState({
       nombre: this.inputNombre.value,
@@ -85,7 +98,7 @@ class HomeG extends Component {
       sede: this.inputSede.value
     })
     if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email && params.sede
-      && params.colonia && params.fecha && params.hora && params.status && params.rfc && params.folio) {
+      && params.colonia && params.fecha && params.hora && params.status && params.rfc && params.folio && params.tipo) {
       firebaseConf.database().ref('agenda-cita/pachuca').push(params).then(() => {
         this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
       }).catch(() => {
@@ -279,50 +292,50 @@ class HomeG extends Component {
                 <form onSubmit={this.sendMessage.bind(this)} ref='contactForm'>
                   <div className="form-group-r">
                     <div className="modal-name">
+                      <label>Nombre:</label>
                       <input
                         type='text'
                         className="form-control-r"
                         id='nombre'
-                        placeholder='Nombre(s)'
                         required
                         ref={nombre => this.inputNombre = nombre} />
                     </div>
                   </div>
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Apellido Paterno:</label>
                       <input
                         type='text'
                         className="cell-r"
                         id='apellidop'
-                        placeholder='Apellido Paterno'
                         required
                         ref={apellidop => this.inputApellidop = apellidop} />
                     </div>
                     <div className='porcent-r2'>
+                      <label>Apellido Materno:</label>
                       <input
                         type='text'
                         className="cell-r"
                         id='apellidom'
-                        placeholder='Apellido Materno'
                         required
                         ref={apellidom => this.inputApellidom = apellidom} />
                     </div>
                   </div>
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Email:</label>
                       <input
                         type="text"
                         className="cell-r"
                         id='email'
-                        placeholder='Email'
                         ref={email => this.inputEmail = email} />
                     </div>
                     <div className='porcent-r2'>
+                      <label>RFC:</label>
                       <input
                         type='text'
                         className="cell-r"
                         id='rfc'
-                        placeholder='RFC'
                         maxLength={13}
                         ref={rfc => this.inputRfc = rfc} />
                     </div>
@@ -330,6 +343,7 @@ class HomeG extends Component {
 
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Municipio:</label>
                       <select className="form-control-r" ref={municipio => this.inputMunicipio = municipio}>
                         <option id='municipio' required>Pachuca de Soto</option>
                         <option id='municipio' required>Acatlán</option>
@@ -418,6 +432,7 @@ class HomeG extends Component {
                       </select>
                     </div>
                     <div className='porcent-r2'>
+                      <label>Lugar a donde realizara el tramite:</label>
                       <select className="form-control-r" ref={sede => this.inputSede = sede}>
                         <option id='sede'>Pachuca de Soto</option>
                         <option id='sede'>Huejutla</option>
@@ -427,17 +442,18 @@ class HomeG extends Component {
                   </div>
                   <div className="form-group-r">
                     <div className="modal-name">
+                      <label>Colonia:</label>
                       <input
                         type='text'
                         className="form-control-r"
                         id='colonia'
-                        placeholder='Colonia'
                         required
                         ref={colonia => this.inputColonia = colonia} />
                     </div>
                   </div>
                   <div className="card-container-r2">
                     <div className='porcent-r'>
+                      <label>Fecha de la cita:</label>
                       <input
                         min={today}
                         max="2020-06-26"
@@ -451,6 +467,7 @@ class HomeG extends Component {
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
                     <div className='porcent-r2'>
+                      <label>Hora de la cita:</label>
                       <select className="form-control-r" ref={hora => this.inputHora = hora}>
                         <option id='hora' disabled={tf8}>8:00</option>
                         <option id='hora' disabled={tf9}>9:00</option>
@@ -464,6 +481,14 @@ class HomeG extends Component {
                         <option id='hora' disabled={tf17}>17:00</option>
                       </select>
                     </div>
+                  </div>
+                  <div className="form-group-r">
+                    <label>Tipo de cita:</label>
+                    <select className="form-control-r" ref={tipo => this.inputTipo = tipo}>
+                      <option id='tipo'>Telefono</option>
+                      <option id='tipo'>Especial</option>
+                      <option id='tipo'>Preferencial</option>
+                    </select>
                   </div>
 
                   <div className="form-group-r hidden">

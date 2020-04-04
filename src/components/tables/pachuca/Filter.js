@@ -4,40 +4,36 @@ import firebaseConf from '../../../Firebase';
 
 class Filter extends Component {
   constructor () {
-    super();
-    this.state = {
-      agendaCita: [],
-    };
-  }
+     super();
+     this.state = {
+       agendaCita: [],
+     };
+   }
 
-  componentWillMount () {
-    firebaseConf.database().ref('agenda-cita/pachuca').on('child_added', snapshot => {
-      this.setState({
-        agendaCita: this.state.agendaCita.concat(snapshot.val())
-      });
-    });
-  }
+   componentWillMount () {
+     firebaseConf.database().ref('agenda-cita/pachuca').on('child_added', snapshot => {
+       this.setState({
+         agendaCita: this.state.agendaCita.concat(snapshot.val())
+       });
+     });
+   }
 
-  borrar = (agendaCita) => {
-    firebaseConf.database().ref().child('/agenda-cita/')
-        .set({ status: "New title"});
-  }
+   updateSearch(event) {
+     this.setState({search: event.target.value.substr(0,20)});
+   }
 
-  updateSearch(event) {
-    this.setState({search: event.target.value.substr(0,20)});
-  }
+   render() {
 
-  render() {
+     let filterData = this.state.agendaCita.filter(
+       (agendaCita) => {
+         return agendaCita.folio.indexOf(this.state.search) !== -1;
+       }
+     );
 
-    let filterData = this.state.agendaCita.filter(
-      (agendaCita) => {
-        return agendaCita.folio.indexOf(this.state.search) !== -1;
-      }
-    );
 
     return (
-      <div className="App" style={{height: '100vh'}}>
-        <div className="App" style={{height: '100vh'}}>
+      <div className="App" style={{minHeight: '100vh'}}>
+        <div className="App" style={{minHeight: '100vh'}}>
           <h1>Citas</h1>
           <input type="text" value={this.state.search} onChange={this.updateSearch.bind(this)}/>
             <div className="products-al">

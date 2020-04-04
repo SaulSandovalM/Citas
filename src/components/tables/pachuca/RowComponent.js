@@ -15,7 +15,6 @@ class RowComponent extends Component {
    }
 
   render() {
-
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;
@@ -34,11 +33,11 @@ class RowComponent extends Component {
 
     const fechaC = this.props.item.fecha;
     const horaC = this.props.item.hora;
-    const sedeC = this.props.item.municipio;
+    const sedeC = this.props.item.sede;
     var trans = parseInt(horaC);
     let table;
 
-    if (fechaC === today && trans >= n && sedeC === 'Pachua de Soto') {
+    if (fechaC === today && trans >= n && sedeC === 'Pachuca de Soto') {
       table =
         <div className="products-al">
           <div className="data-table">{this.props.item.nombre} {this.props.item.apellidop} {this.props.item.apellidom}</div>

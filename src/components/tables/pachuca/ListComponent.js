@@ -24,9 +24,14 @@ class ListComponent extends Component {
     return (
       <div className="App" style={{height: '100vh'}}>
         <h1>Citas</h1>
-        <Link to='/Filter' style={{textDecoration: 'none'}}>
-          <p>Buscar por Folio</p>
-        </Link>
+        <div className="row-cit">
+          <Link to='/Filter' style={{textDecoration: 'none'}}>
+            <p>Buscar por Folio</p>
+          </Link>
+          <Link to='/HomeGobierno' style={{textDecoration: 'none'}}>
+            <p>Agendar Cita</p>
+          </Link>
+        </div>
         <div className="products-al">
           <div className="col-table">Nombre</div>
           <div className="col-table">Correo</div>
