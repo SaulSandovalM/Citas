@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import '../Tables.css';
+import React, { Component } from 'react'
+import '../Tables.css'
 
-class RowComponent extends Component {
-  constructor(props){
-     super(props);
-     this.state = {
-       done: false,
-       item: 'Atendido',
-     };
-   }
+export default class RowComponent extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      done: false,
+      item: 'Atendido'
+    }
+  }
 
    update = () => {
-     this.props.update(this.props.item);
+     this.props.update(this.props.item)
    }
 
-  render() {
+  render () {
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;
@@ -39,24 +39,20 @@ class RowComponent extends Component {
 
     if (fechaC === today && trans >= n && sedeC === 'Pachuca de Soto') {
       table =
-        <div className="products-al">
-          <div className="data-table">{this.props.item.nombre} {this.props.item.apellidop} {this.props.item.apellidom}</div>
-          <div className="data-table">{this.props.item.email}</div>
-          <div className="data-table">{this.props.item.rfc}</div>
-          <div className="data-table">{this.props.item.municipio}</div>
-          <div className="data-table">{this.props.item.fecha} / {this.props.item.hora}</div>
-          <div className="data-table">
-            {this.props.item.status}
-            <button onClick={this.update}>Atendido</button>
-          </div>
-        </div>;
+        <div className='products-al'>
+          <div className='data-table'>{this.props.item.nombre} {this.props.item.apellidop} {this.props.item.apellidom}</div>
+          <div className='data-table'>{this.props.item.email}</div>
+          <div className='data-table'>{this.props.item.rfc}</div>
+          <div className='data-table'>{this.props.item.municipio}</div>
+          <div className='data-table'>{this.props.item.fecha} / {this.props.item.hora}</div>
+          <div className='data-table'>{this.props.item.status}</div>
+          <div className='data-table'><button onClick={this.update}>Atendido</button></div>
+        </div>
     }
     return (
       <div>
-       {table}
+        {table}
       </div>
-    );
+    )
   }
 }
-
-export default RowComponent;

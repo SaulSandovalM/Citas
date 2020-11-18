@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import '../Tables.css';
-import firebaseConf from '../../../Firebase';
-import ListComponent from './ListComponent';
+import React, { Component } from 'react'
+import '../Tables.css'
+import firebaseConf from '../../../Firebase'
+import ListComponent from './ListComponent'
 
-class TablePachuca extends Component {
-  constructor(){
-    super();
+export default class TablePachuca extends Component {
+  constructor () {
+    super()
     this.state = {
       nuevo: '',
       lista: [
@@ -13,14 +13,14 @@ class TablePachuca extends Component {
           id: 1,
           name: 'preuba',
           done: false
-        },
+        }
       ]
     }
   }
 
   listenForItems = (itemsRef) => {
     itemsRef.on('value', (snap) => {
-      var lista = [];
+      var lista = []
       snap.forEach((child) => {
         lista.push({
           nombre: child.val().nombre,
@@ -34,25 +34,24 @@ class TablePachuca extends Component {
           rfc: child.val().rfc,
           status: child.val().status,
           done: child.val().done,
-          folio: child.val().folio,
           sede: child.val().sede,
           id: child.key
-        });
-      });
+        })
+      })
       this.setState({
         lista: lista
-      });
-    });
+      })
+    })
   }
 
-  componentDidMount() {
-    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca');
-    this.listenForItems(itemsRef);
+  componentDidMount () {
+    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca')
+    this.listenForItems(itemsRef)
   }
 
   update = (item) => {
-    let updates = {};
-    updates['agenda-cita/pachuca/' + item.id] = {
+    let updates = {}
+    updates['agenda-cita/' + item.id] = {
       status: "Atendido",
       nombre: item.nombre,
       apellidop: item.apellidop,
@@ -64,21 +63,18 @@ class TablePachuca extends Component {
       municipio: item.municipio,
       rfc: item.rfc,
       sede: item.sede,
-      folio: item.folio
-    };
-    firebaseConf.database().ref().update(updates);
+    }
+    firebaseConf.database().ref().update(updates)
   }
 
-  render() {
+  render () {
     return (
-      <div className="App" style={{height: '100vh'}}>
+      <div className='App' style={{ height: '100vh' }}>
         <ListComponent
           lista={this.state.lista}
           update={this.update}
         />
       </div>
-    );
+    )
   }
 }
-
-export default TablePachuca;

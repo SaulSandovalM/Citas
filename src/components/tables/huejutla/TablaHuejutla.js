@@ -3,7 +3,7 @@ import '../Tables.css';
 import firebaseConf from '../../../Firebase';
 import ListComponent from './ListComponent';
 
-class TableHuejutla extends Component {
+export default class TableHuejutla extends Component {
   constructor(){
     super();
     this.state = {
@@ -34,7 +34,6 @@ class TableHuejutla extends Component {
           rfc: child.val().rfc,
           status: child.val().status,
           done: child.val().done,
-          folio: child.val().folio,
           sede: child.val().sede,
           id: child.key
         });
@@ -73,12 +72,10 @@ class TableHuejutla extends Component {
     return (
       <div className="App" style={{height: '100vh'}}>
         <ListComponent
-            lista={this.state.lista}
-            update={this.update}
+          lista={this.state.lista}
+          update={this.update}
         />
       </div>
     );
   }
 }
-
-export default TableHuejutla;

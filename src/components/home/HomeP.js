@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import './Home.css';
-import firebaseConf from '../../Firebase';
-import ReactToPrint from 'react-to-print';
+import React, { Component } from 'react'
+import './Home.css'
+import firebaseConf from '../../Firebase'
+import ReactToPrint from 'react-to-print'
 
 class HomeP extends Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
+  constructor (props) {
+    super(props)
+    this.handleChangef = this.handleChangef.bind(this)
+    this.handleChangeh = this.handleChangeh.bind(this)
     this.state = {
       form: [],
       alert: false,
@@ -19,60 +20,66 @@ class HomeP extends Component {
       folio: '',
       sede: '',
       isHidden: true,
-    };
+      lista: [
+        {
+          id: 1,
+          name: 'preuba',
+          done: false
+        }
+      ]
+    }
   }
 
-  handleChange(e) {
-    this.setState({fecha: e.target.value});
+  handleChangef (e) {
+    this.setState({ fecha: e.target.value })
   }
 
-  showAlert(type, message) {
+ handleChangeh (e) {
+    this.setState({ hora: e.target.value })
+  }
+
+
+  resetForm () {
+    this.refs.contactForm.reset()
+  }
+
+  toggleHidden () {
     this.setState({
-      alert: true,
-      alertData: {type, message}
-    });
-    setTimeout(() => {
-      this.setState({alert: false});
-    }, 6000);
+      isHidden: !this.state.isHidden
+    })
   }
 
-  resetForm() {
-    this.refs.contactForm.reset();
+  componentDidMount () {
+    const itemsRef = firebaseConf.database().ref('agenda-cita/')
+    this.listenForItems(itemsRef)
   }
 
-  toggleHidden() {
-   this.setState({
-     isHidden: !this.state.isHidden
-   })
- }
-
-  componentDidMount() {
-    const picker = document.getElementById('fecha');
-    picker.addEventListener('input', function(e){
-      var day = new Date(this.value).getUTCDay();
-      if([6,0].includes(day)){
-        e.preventDefault();
-        this.value = '';
-        alert('Este dia no se puede seleccionar');
-      }
-    });
-  }
-
-  componentWillMount() {
-    let formRef = firebaseConf
-      .database()
-      .ref('agenda-cita/pachuca')
-      .orderByKey()
-      .limitToLast(6);
+  componentWillMount () {
+    const formRef = firebaseConf.database().ref('agenda-cita').orderByKey().limitToLast(6)
     formRef.on('child_added', snapshot => {
-      const {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede} = snapshot.val();
-      const data = {nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede};
-      this.setState({form: [data].concat(this.state.form)});
-    });
+      const { nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede } = snapshot.val()
+      const data = { nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede }
+      this.setState({ form: [data].concat(this.state.form) })
+    })
   }
 
-  sendMessage(e) {
-    e.preventDefault();
+  listenForItems = (itemsRef) => {
+    itemsRef.on('value', (snap) => {
+      var lista = []
+      snap.forEach((child) => {
+        lista.push({
+          fecha: child.val().fecha,
+          hora: child.val().hora
+        })
+      })
+      this.setState({
+        lista: lista
+      })
+    })
+  }
+
+  sendMessage (e) {
+    e.preventDefault()
     const params = {
       nombre: this.inputNombre.value,
       apellidop: this.inputApellidop.value,
@@ -84,177 +91,51 @@ class HomeP extends Component {
       email: this.inputEmail.value,
       rfc: this.inputRfc.value,
       status: this.inputStatus.value,
-      folio: this.inputFolio.value,
       sede: this.inputSede.value
-    };
+    }
     this.setState({
       nombre: this.inputNombre.value,
       apellidop: this.inputApellidop.value,
       apellidom: this.inputApellidom.value,
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
-      folio: this.inputFolio.value,
       sede: this.inputSede.value,
     })
     if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email && params.sede
-      && params.colonia && params.fecha && params.hora && params.status && params.rfc && params.folio) {
+      && params.colonia && params.fecha && params.hora && params.status && params.rfc) {
       firebaseConf.database().ref('agenda-cita/pachuca').push(params).then(() => {
-        this.showAlert('success', 'Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.');
+        alert('Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.')
       }).catch(() => {
-        this.showAlert('danger', 'Tu solicitud no puede ser enviada');
-      });
-      this.resetForm();
-      this.toggleHidden();
+        alert('Tu solicitud no puede ser enviada')
+      })
+      this.resetForm()
+      this.toggleHidden()
     } else {
-      this.showAlert('warning', 'Por favor llene el formulario');
-    };
+      alert('Por favor llene el formulario')
+    }
   }
 
-  render() {
-
-    var today = new Date();
-    var h = (today.getHours());
-    var m = (today.getMinutes());
-    var s = (today.getSeconds());
-    var ms = (today.getMilliseconds());
-
-    console.log(ffolio)
-
-    var dd = today.getDate();
-    var mm = today.getMonth()+1;
-    var yyyy = today.getFullYear();
-    var ffolio = dd + "-" + h + "-" + m + "-" + s ;
-    var fol = ffolio,
-    cosa = "-",
-    nuevo = "",
-    nuevaCadena = fol.replace(cosa, nuevo);
-    var f = nuevaCadena.replace(cosa, nuevo);
-
-
-    if ( dd < 10 ){
-      dd = '0' + dd
-    }
-    if ( mm < 10 ){
-      mm = '0' + mm
-    }
-    today = yyyy + '-' + mm + '-' + dd;
-
-    const fecha = this.state.fecha;
-    var cadena = fecha,
-    patron = "-",
-    nuevoValor = "",
-    nuevaCadena = cadena.replace(patron, nuevoValor);
-    var folio = nuevaCadena.replace(patron, nuevoValor);
-
-    var d = new Date();
-    var n = d.getHours();
-    var tf8 = false;
-    var tf9 = false;
-    var tf10 = false;
-    var tf11 = false;
-    var tf12 = false;
-    var tf13 = false;
-    var tf14 = false;
-    var tf15 = false;
-    var tf16 = false;
-    var tf17 = false;
-
-    if (today && n > 7) {
-      tf8 = true;
-      console.log('primer if ' + tf8)
-      if (fecha && n > 7 && fecha !== today) {
-        tf8 = false;
-        console.log(tf8)
-      }
-    }
-    if (today && n > 8) {
-      tf9 = true;
-      console.log('primer if ' + tf9)
-      if (fecha && n > 8 && fecha !== today) {
-        tf9 = false;
-        console.log(tf9)
-      }
-    }
-    if (today && n > 9) {
-      tf10 = true;
-      console.log('primer if ' + tf10)
-      if (fecha && n > 9 && fecha !== today) {
-        tf10 = false;
-        console.log(tf10)
-      }
-    }
-    if (today && n > 10) {
-      tf11 = true;
-      console.log('primer if ' + tf11)
-      if (fecha && n > 10 && fecha !== today) {
-        tf11 = false;
-        console.log(tf11)
-      }
-    }
-    if (today && n > 11) {
-      tf12 = true;
-      console.log('primer if ' + tf12)
-      if (fecha && n > 11 && fecha !== today) {
-        tf12 = false;
-        console.log(tf12)
-      }
-    }
-    if (today && n > 12) {
-      tf13 = true;
-      console.log('primer if ' + tf13)
-      if (fecha && n > 12 && fecha !== today) {
-        tf13 = false;
-        console.log(tf13)
-      }
-    }
-    if (today && n > 13) {
-      tf14 = true;
-      console.log('primer if ' + tf14)
-      if (fecha && n > 13 && fecha !== today) {
-        tf14 = false;
-        console.log(tf14)
-      }
-    }
-    if (today && n > 14) {
-      tf15 = true;
-      console.log('primer if ' + tf15)
-      if (fecha && n > 14 && fecha !== today) {
-        tf15 = false;
-        console.log(tf15)
-      }
-    }
-    if (today && n > 15) {
-      tf16 = true;
-      console.log('primer if ' + tf16)
-      if (fecha && n > 15 && fecha !== today) {
-        tf16 = false;
-        console.log(tf16)
-      }
-    }
-    if (today && n > 16) {
-      tf17 = true;
-      console.log('primer if ' + tf17)
-      if (fecha && n > 16 && fecha !== today) {
-        tf17 = false;
-        console.log(tf17)
+  render () {
+    const dato = this.state.lista
+    const fecha = this.state.fecha
+    const hora = this.state.hora
+    let dis
+    for (var i = 0; i < dato.length; i++) {
+      if (fecha === dato[i].fecha && hora === dato[i].hora) {
+        dis = <p>Estas fecha ya esta reserbada</p>
+      } else {
+        dis = <button type='submit' className='boton-color2'>Confirmar</button>
       }
     }
 
     return (
-      <div style={{width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px'}}>
-        <div style={{justifyContent: 'left', zIndex: '200'}}>
-          {this.state.alert && <div className={`alert alert-${this.state.alertData.type}`} role='alert'>
-            <div className='container'>
-              {this.state.alertData.message}
-            </div>
-          </div>}
-        </div>
+      <div style={{ width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px' }}>
         <div style={{width: '65%'}}>
-          <h1 className="back-title">Expedición de Constancia de NO Antecedentes Penales</h1>
-          <div className="row">
-            <div className="text">
-              <h5 className="title-r">Requisitos</h5>
-              <p className="size">
+          <h1 className='back-title'>Expedición de Constancia de NO Antecedentes Penales</h1>
+          <div className='row'>
+            <div className='text'>
+              <h5 className='title-r'>Requisitos</h5>
+              <p className='size'>
                 Si Usted Radica en México.
                 <br></br><br></br>
                 1.- Recibo de pago (formato F-7)
@@ -265,7 +146,7 @@ class HomeP extends Component {
                 <br></br>
                 4.- Una Fotografía a color tamaño pasaporte fondo blanco.
                 <br></br>
-                5. Recibo de pago (formato F-7) <a href="https://ruts.hidalgo.gob.mx/tramite/572">Desacargar formato de pago</a>
+                5. Recibo de pago (formato F-7) <a href='https://ruts.hidalgo.gob.mx/tramite/572'>Desacargar formato de pago</a>
                 <br></br><br></br>
                 Si Usted radica en el Extranjero
                 <br></br><br></br>
@@ -285,44 +166,43 @@ class HomeP extends Component {
                 <br></br>
                 8. Credencial original y copia de la persona que realiza el trámite
                 <br></br>
-                9. Recibo de pago (formato F-7) <a href="https://ruts.hidalgo.gob.mx/tramite/572">Desacargar formato de pago</a>
+                9. Recibo de pago (formato F-7) <a href='https://ruts.hidalgo.gob.mx/tramite/572'>Desacargar formato de pago</a>
               </p>
             </div>
-            <div className="text2-res">
-              <h5 className="title-r">Ubicación</h5>
-              <p className="size">Servicios Periciales Pachuca</p>
-              <p className="size"><i>Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</i></p>
-              <a href="https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584">Abrir ubicación Google Maps</a>
-              <p className="size">Servicios Periciales Huejutla</p>
-              <p className="size"><i>Olimpia, 43000 Huejutla, Hgo.</i></p>
-              <a href="https://www.google.com.mx/maps/place/Agencia+del+Ministerio+Publico/@21.1496548,-98.4171,18z/data=!4m8!1m2!2m1!1sAgencia+de+Ministerio+P%C3%BAblico!3m4!1s0x85d727a12b89e037:0xb4b27e217d3f0a5e!8m2!3d21.1495294!4d-98.4171117">Abrir ubicación Google Maps</a>
-              <h5 className="title-r">Informes</h5>
-              <p className="size">Para más información favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
+            <div className='text2-res'>
+              <h5 className='title-r'>Ubicación</h5>
+              <p className='size'>Servicios Periciales Pachuca</p>
+              <p className='size'><i>Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</i></p>
+              <a href='https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584'>Abrir ubicación Google Maps</a>
+              <p className='size'>Servicios Periciales Huejutla</p>
+              <p className='size'><i>Olimpia, 43000 Huejutla, Hgo.</i></p>
+              <a href='https://www.google.com.mx/maps/place/Agencia+del+Ministerio+Publico/@21.1496548,-98.4171,18z/data=!4m8!1m2!2m1!1sAgencia+de+Ministerio+P%C3%BAblico!3m4!1s0x85d727a12b89e037:0xb4b27e217d3f0a5e!8m2!3d21.1495294!4d-98.4171117'>Abrir ubicación Google Maps</a>
+              <h5 className='title-r'>Informes</h5>
+              <p className='size'>Para más información favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
             </div>
           </div>
-
           <div style={{width: '100%', marginBottom: '100px'}}>
-            <h1 className="back-title">Agenda tu Cita</h1>
-            <div className="row2">
-              <div className="text2">
+            <h1 className='back-title'>Agenda tu Cita</h1>
+            <div className='row2'>
+              <div className='text2'>
                 <form onSubmit={this.sendMessage.bind(this)} ref='contactForm'>
-                  <div className="form-group-r">
-                    <div className="modal-name">
+                  <div className='form-group-r'>
+                    <div className='modal-name'>
                       <label>Nombre:</label>
                       <input
                         type='text'
-                        className="form-control-r"
+                        className='form-control-r'
                         id='nombre'
                         required
                         ref={nombre => this.inputNombre = nombre} />
                     </div>
                   </div>
-                  <div className="card-container-r2">
+                  <div className='card-container-r2'>
                     <div className='porcent-r'>
                       <label>Apellido Paterno:</label>
                       <input
                         type='text'
-                        className="cell-r"
+                        className='cell-r'
                         id='apellidop'
                         required
                         ref={apellidop => this.inputApellidop = apellidop} />
@@ -331,18 +211,18 @@ class HomeP extends Component {
                       <label>Apellido Materno:</label>
                       <input
                         type='text'
-                        className="cell-r"
+                        className='cell-r'
                         id='apellidom'
                         required
                         ref={apellidom => this.inputApellidom = apellidom} />
                     </div>
                   </div>
-                  <div className="card-container-r2">
+                  <div className='card-container-r2'>
                     <div className='porcent-r'>
                       <label>Email:</label>
                       <input
-                        type="text"
-                        className="cell-r"
+                        type='text'
+                        className='cell-r'
                         id='email'
                         ref={email => this.inputEmail = email} />
                     </div>
@@ -350,17 +230,16 @@ class HomeP extends Component {
                       <label>RFC:</label>
                       <input
                         type='text'
-                        className="cell-r"
+                        className='cell-r'
                         id='rfc'
                         maxLength={13}
                         ref={rfc => this.inputRfc = rfc} />
                     </div>
                   </div>
-
-                  <div className="card-container-r2">
+                  <div className='card-container-r2'>
                     <div className='porcent-r'>
                       <label>Municipio de procedencia:</label>
-                      <select className="form-control-r" ref={municipio => this.inputMunicipio = municipio}>
+                      <select className='form-control-r' ref={municipio => this.inputMunicipio = municipio}>
                         <option id='municipio' required>Pachuca de Soto</option>
                         <option id='municipio' required>Acatlán</option>
                         <option id='municipio' required>Acaxochitlán</option>
@@ -449,78 +328,75 @@ class HomeP extends Component {
                     </div>
                     <div className='porcent-r2'>
                       <label>Lugar a donde realizara el tramite:</label>
-                      <select className="form-control-r" ref={sede => this.inputSede = sede}>
+                      <select className='form-control-r' ref={sede => this.inputSede = sede}>
                         <option id='sede'>Pachuca de Soto</option>
                         <option id='sede'>Huejutla</option>
                         <option id='sede'>Tulancingo</option>
                       </select>
                     </div>
                   </div>
-                  <div className="form-group-r">
-                    <div className="modal-name">
+                  <div className='form-group-r'>
+                    <div className='modal-name'>
                       <label>Colonia:</label>
                       <input
                         type='text'
-                        className="form-control-r"
+                        className='form-control-r'
                         id='colonia'
                         required
                         ref={colonia => this.inputColonia = colonia} />
                     </div>
                   </div>
-                  <div className="card-container-r2">
+                  <div className='card-container-r2'>
                     <div className='porcent-r'>
                       <label>Fecha de la cita:</label>
                       <input
-                        min={today}
-                        max="2020-06-26"
-                        type="date"
-                        className="cell-r"
+                        type='date'
+                        className='cell-r'
                         id='fecha'
                         required
-                        value={fecha}
-                        onChange={this.handleChange}
+                        onChange={this.handleChangef}
                         ref={fecha => this.inputFecha = fecha} />
                     </div>
                     <div className='porcent-r2'>
                       <label>Hora de la cita:</label>
-                      <select className="form-control-r" ref={hora => this.inputHora = hora}>
-                        <option id='hora' disabled={tf8}>8:00</option>
-                        <option id='hora' disabled={tf9}>9:00</option>
-                        <option id='hora' disabled={tf10}>10:00</option>
-                        <option id='hora' disabled={tf11}>11:00</option>
-                        <option id='hora' disabled={tf12}>12:00</option>
-                        <option id='hora' disabled={tf13}>13:00</option>
-                        <option id='hora' disabled={tf14}>14:00</option>
-                        <option id='hora' disabled={tf15}>15:00</option>
-                        <option id='hora' disabled={tf16}>16:00</option>
-                        <option id='hora' disabled={tf17}>17:00</option>
+                      <select
+                        className='form-control-r'
+                        onChange={this.handleChangeh}
+                        ref={hora => this.inputHora = hora}>
+                        <option id='hora'>8:00</option>
+                        <option id='hora'>9:00</option>
+                        <option id='hora'>10:00</option>
+                        <option id='hora'>11:00</option>
+                        <option id='hora'>12:00</option>
+                        <option id='hora'>13:00</option>
+                        <option id='hora'>14:00</option>
+                        <option id='hora'>15:00</option>
+                        <option id='hora'>16:00</option>
+                        <option id='hora'>17:00</option>
                       </select>
                     </div>
                   </div>
-
-                  <div className="form-group-r hidden">
-                    <div className="modal-name">
+                  <div className='form-group-r hidden'>
+                    <div className='modal-name'>
                       <input
                         type='text'
-                        className="form-control-r"
+                        className='form-control-r'
                         id='status'
-                        value="en espera"
+                        value='en espera'
                         ref={status => this.inputStatus = status} />
                     </div>
                   </div>
-                  <div className="form-group-r hidden">
-                    <div className="modal-name">
+                  <div className='form-group-r hidden'>
+                    <div className='modal-name'>
                       <input
                         type='numeric'
-                        className="form-control-r"
+                        className='form-control-r'
                         id='folio'
-                        value={f}
                         ref={folio => this.inputFolio = folio} />
                     </div>
                   </div>
-
-                  <div className="presentation-cta">
-                    <button type='submit' className="boton-color2">Confirmar</button>
+                  <div className='presentation-cta'>
+                    {dis}
                   </div>
                   {!this.state.isHidden && <ReactToPrint
                     trigger={() => <button>Imprimie aqui tu Ticket</button>}
@@ -528,27 +404,26 @@ class HomeP extends Component {
                     onAfterPrint={this.toggleHidden.bind(this)}
                   />}
                   <div className='print-source' style={{padding: '20px'}} ref={el => (this.componentRef = el)}>
-                    <div className="row-ti">
+                    <div className='row-ti'>
                       <img src={'https://seeklogo.com/images/G/gobierno-del-estado-de-hidalgo-logo-83001C1D96-seeklogo.com.png'} alt='' className='img-cc'/>
-                      <div className="column-t">
-                        <p className="name-size">Folio de Atención</p>
-                        <p className="name-size3">{f}</p>
-                        <p className="name-size">Cita</p>
-                        <p className="name-size2">{this.state.fecha}, {this.state.hora}</p>
+                      <div className='column-t'>
+                        <p className='name-size'>Folio de Atención</p>
+                        <p className='name-size'>Cita</p>
+                        <p className='name-size2'>{this.state.fecha}, {this.state.hora}</p>
                       </div>
                     </div>
-                    <div className="column-t row-ti">
-                      <div className="column-t">
-                        <p className="name-size">Nombre</p>
-                        <p className="name-size2">{this.state.nombre} {this.state.apellidop}</p>
+                    <div className='column-t row-ti'>
+                      <div className='column-t'>
+                        <p className='name-size'>Nombre</p>
+                        <p className='name-size2'>{this.state.nombre} {this.state.apellidop}</p>
                       </div>
-                      <div className="column-t">
-                        <p className="name-size">Ubicación</p>
-                        <p className="name-size2">Pachuca de Soto</p>
+                      <div className='column-t'>
+                        <p className='name-size'>Ubicación</p>
+                        <p className='name-size2'>Pachuca de Soto</p>
                       </div>
-                      <div className="column-t">
-                        <p className="name-size">Observaciones</p>
-                        <p className="name-size3">
+                      <div className='column-t'>
+                        <p className='name-size'>Observaciones</p>
+                        <p className='name-size3'>
                           Le recordamos que en el caso de pagar en BBVA y Santander el pago tardara en
                           reflejarse en un tiempo de 48 horas aproximadamente.
                         </p>
@@ -561,8 +436,8 @@ class HomeP extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default HomeP;
+export default HomeP
