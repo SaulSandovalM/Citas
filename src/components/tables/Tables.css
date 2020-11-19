@@ -1,5 +1,5 @@
 .App {
-  padding: 60px;
+  padding: 30px 60px 60px 60px;
 }
 .products-al {
   display: flex;
@@ -158,4 +158,8 @@ body > .print-source {
   flex-direction: column;
   justify-content: center;
   padding-right: 50px;
+}
+.row-cit {
+  display: flex;
+  justify-content: space-between;
 }

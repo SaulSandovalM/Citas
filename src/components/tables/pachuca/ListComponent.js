@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../Tables.css'
 import RowComponent from './RowComponent'
 import firebaseConf from '../../../Firebase'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default class ListComponent extends Component {
   constructor (props) {
@@ -22,16 +22,16 @@ export default class ListComponent extends Component {
 
   render () {
     return (
-      <div className='App' style={{height: '100vh'}}>
+      <div className='App'>
         <h1>Citas</h1>
-        {/* <div className='row-cit'>
+        <div className='row-cit'>
           <Link to='/Filter' style={{textDecoration: 'none'}}>
             <p>Buscar por Folio</p>
           </Link>
           <Link to='/HomeGobierno' style={{textDecoration: 'none'}}>
             <p>Agendar Cita</p>
           </Link>
-        </div> */}
+        </div>
         <div className='products-al'>
           <div className='col-table'>Nombre</div>
           <div className='col-table'>Correo</div>
@@ -39,7 +39,7 @@ export default class ListComponent extends Component {
           <div className='col-table'>Municipio</div>
           <div className='col-table'>Fecha/Hora</div>
           <div className='col-table'>Estatus</div>
-          <div className='col-table'></div>
+          <div className='col-table'>Actualizar</div>
         </div>
         {
           this.props.lista.map(item =>

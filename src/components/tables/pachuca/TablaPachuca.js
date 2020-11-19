@@ -51,7 +51,7 @@ export default class TablePachuca extends Component {
 
   update = (item) => {
     let updates = {}
-    updates['agenda-cita/' + item.id] = {
+    updates['agenda-cita/pachuca/' + item.id] = {
       status: "Atendido",
       nombre: item.nombre,
       apellidop: item.apellidop,
@@ -69,7 +69,7 @@ export default class TablePachuca extends Component {
 
   render () {
     return (
-      <div className='App' style={{ height: '100vh' }}>
+      <div className='App' style={{ minHeight: '90vh' }}>
         <ListComponent
           lista={this.state.lista}
           update={this.update}

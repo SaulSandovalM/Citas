@@ -17,10 +17,10 @@ export default class Filter extends Component {
       })
     })
   }
-
-  borrar = (agendaCita) => {
-    firebaseConf.database().ref().child('/agenda-cita/').set({ status: 'New title'})
-  }
+  //
+  // borrar = (agendaCita) => {
+  //   firebaseConf.database().ref().child('/agenda-cita/').set({ status: 'New title'})
+  // }
 
   updateSearch (event) {
     this.setState({ search: event.target.value.substr(0, 20) })
@@ -29,7 +29,7 @@ export default class Filter extends Component {
   render () {
     const filterData = this.state.agendaCita.filter(
       (agendaCita) => {
-        return agendaCita.fecha.indexOf(this.state.search) !== -1
+        return agendaCita.nombre.indexOf(this.state.search) !== -1
       }
     )
 

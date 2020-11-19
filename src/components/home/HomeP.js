@@ -3,7 +3,7 @@ import './Home.css'
 import firebaseConf from '../../Firebase'
 import ReactToPrint from 'react-to-print'
 
-class HomeP extends Component {
+export default class HomeP extends Component {
   constructor (props) {
     super(props)
     this.handleChangef = this.handleChangef.bind(this)
@@ -38,7 +38,6 @@ class HomeP extends Component {
     this.setState({ hora: e.target.value })
   }
 
-
   resetForm () {
     this.refs.contactForm.reset()
   }
@@ -50,7 +49,7 @@ class HomeP extends Component {
   }
 
   componentDidMount () {
-    const itemsRef = firebaseConf.database().ref('agenda-cita/')
+    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca')
     this.listenForItems(itemsRef)
   }
 
@@ -119,10 +118,11 @@ class HomeP extends Component {
     const dato = this.state.lista
     const fecha = this.state.fecha
     const hora = this.state.hora
+    var indices = []
     let dis
     for (var i = 0; i < dato.length; i++) {
-      if (fecha === dato[i].fecha && hora === dato[i].hora) {
-        dis = <p>Estas fecha ya esta reserbada</p>
+      if (dato[i].hora === hora && fecha === dato[i].fecha && indices.push(i) === 10) {
+        dis = <p>Se acabaron las citas para estos parametros</p>
       } else {
         dis = <button type='submit' className='boton-color2'>Confirmar</button>
       }
@@ -332,6 +332,7 @@ class HomeP extends Component {
                         <option id='sede'>Pachuca de Soto</option>
                         <option id='sede'>Huejutla</option>
                         <option id='sede'>Tulancingo</option>
+                        <option id='sede'>Tizayuca</option>
                       </select>
                     </div>
                   </div>
@@ -362,7 +363,9 @@ class HomeP extends Component {
                       <select
                         className='form-control-r'
                         onChange={this.handleChangeh}
-                        ref={hora => this.inputHora = hora}>
+                        ref={hora => this.inputHora = hora}
+                      >
+                        <option id='hora'></option>
                         <option id='hora'>8:00</option>
                         <option id='hora'>9:00</option>
                         <option id='hora'>10:00</option>
@@ -439,5 +442,3 @@ class HomeP extends Component {
     )
   }
 }
-
-export default HomeP
