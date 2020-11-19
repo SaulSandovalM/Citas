@@ -5,6 +5,7 @@ import ProtectedRoute from './ProtectedRoute'
 import Login from './components/login/loginpachuca/Login'
 import TablaPachuca from './components/tables/pachuca/TablaPachuca'
 import Home from './components/home/HomeP'
+import Filter from './components/tables/pachuca/Filter'
 
 function App (props) {
   const { isAuthenticated, isVerifying } = props
@@ -15,6 +16,13 @@ function App (props) {
         exact
         path='/Citas'
         component={TablaPachuca}
+        isAuthenticated={isAuthenticated}
+        isVerifying={isVerifying}
+      />
+      <ProtectedRoute
+        exact
+        path='/Filtro'
+        component={Filter}
         isAuthenticated={isAuthenticated}
         isVerifying={isVerifying}
       />

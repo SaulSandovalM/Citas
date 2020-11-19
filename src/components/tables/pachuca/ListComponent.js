@@ -25,10 +25,10 @@ export default class ListComponent extends Component {
       <div className='App'>
         <h1>Citas</h1>
         <div className='row-cit'>
-          <Link to='/Filter' style={{textDecoration: 'none'}}>
+          <Link to='/Filter' style={{ textDecoration: 'none' }}>
             <p>Buscar por Folio</p>
           </Link>
-          <Link to='/HomeGobierno' style={{textDecoration: 'none'}}>
+          <Link to='/HomeGobierno' style={{ textDecoration: 'none' }}>
             <p>Agendar Cita</p>
           </Link>
         </div>

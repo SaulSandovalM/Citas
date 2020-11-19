@@ -22,6 +22,15 @@
   font-weight: bold;
   padding-left: 10px;
 }
+.col-table2 {
+  width: 16%;
+  height: 40px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+}
 .data-table {
   width: 14%;
   height: 40px;

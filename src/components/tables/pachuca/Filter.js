@@ -11,7 +11,7 @@ export default class Filter extends Component {
   }
 
   componentWillMount () {
-    firebaseConf.database().ref('agenda-cita').on('child_added', snapshot => {
+    firebaseConf.database().ref('agenda-cita/pachuca').on('child_added', snapshot => {
       this.setState({
         agendaCita: this.state.agendaCita.concat(snapshot.val())
       })
@@ -37,24 +37,24 @@ export default class Filter extends Component {
       <div className='App' style={{ height: '100vh' }}>
         <div className='App' style={{ height: '100vh' }}>
           <h1>Citas</h1>
-          <input type='date' value={this.state.search} onChange={this.updateSearch.bind(this)} />
+          <input value={this.state.search} onChange={this.updateSearch.bind(this)} />
           <div className='products-al'>
-            <div className='col-table'>Nombre</div>
-            <div className='col-table'>Marca</div>
-            <div className='col-table'>Modelo</div>
-            <div className='col-table'>Placas</div>
-            <div className='col-table'>Fecha / Hora</div>
-            <div className='col-table'>Status</div>
+            <div className='col-table2'><b>Nombre</b></div>
+            <div className='col-table2'><b>Correo</b></div>
+            <div className='col-table2'><b>RFC</b></div>
+            <div className='col-table2'><b>Municipio</b></div>
+            <div className='col-table2'><b>Fecha/Hora</b></div>
+            <div className='col-table2'><b>Estatus</b></div>
           </div>
           {
             filterData.map(agendaCita => (
               <div className='products-al'>
-                <div className='data-table'>{agendaCita.nombre} {agendaCita.apellidop} {agendaCita.apellidom}</div>
-                <div className='data-table'>{agendaCita.marca}</div>
-                <div className='data-table'>{agendaCita.modelo}</div>
-                <div className='data-table'>{agendaCita.placas}</div>
-                <div className='data-table'>{agendaCita.fecha} / {agendaCita.hora} hrs</div>
-                <div className='data-table'>{agendaCita.status}</div>
+                <div className='col-table2'>{agendaCita.nombre} {agendaCita.apellidop} {agendaCita.apellidom}</div>
+                <div className='col-table2'>{agendaCita.email}</div>
+                <div className='col-table2'>{agendaCita.rfc}</div>
+                <div className='col-table2'>{agendaCita.municipio}</div>
+                <div className='col-table2'>{agendaCita.fecha} / {agendaCita.hora}</div>
+                <div className='col-table2'>{agendaCita.status}</div>
               </div>
             )).reverse()
           }
