@@ -17,6 +17,10 @@ export default class Filter extends Component {
       })
     })
   }
+  //
+  // borrar = (agendaCita) => {
+  //   firebaseConf.database().ref().child('/agenda-cita/').set({ status: 'New title'})
+  // }
 
   updateSearch (event) {
     this.setState({ search: event.target.value.substr(0, 20) })

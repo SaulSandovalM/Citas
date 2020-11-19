@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { loginUser } from '../../../actions'
 import '../Login.css'
 
-class Login extends Component {
+class LoginTulancingo extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -89,4 +89,4 @@ function mapStateToProps (state) {
   }
 }
 
-export default (connect(mapStateToProps)(Login))
+export default (connect(mapStateToProps)(LoginTulancingo))

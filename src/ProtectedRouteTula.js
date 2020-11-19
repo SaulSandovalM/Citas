@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
-const ProtectedRoute = ({
+const ProtectedRouteTula = ({
   component: Component,
   isAuthenticated,
   isVerifying,
@@ -17,11 +17,11 @@ const ProtectedRoute = ({
       ) : (
         <Redirect
           to={{
-            pathname: '/login',
+            pathname: '/LoginTula',
             state: { from: props.location }
           }}
         />)}
   />
 )
 
-export default ProtectedRoute
+export default ProtectedRouteTula

@@ -11,13 +11,13 @@ export default class Filter extends Component {
   }
 
   componentWillMount () {
-    firebaseConf.database().ref('agenda-cita/pachuca').on('child_added', snapshot => {
+    firebaseConf.database().ref('agenda-cita/tizayuca').on('child_added', snapshot => {
       this.setState({
         agendaCita: this.state.agendaCita.concat(snapshot.val())
       })
     })
   }
-
+  
   updateSearch (event) {
     this.setState({ search: event.target.value.substr(0, 20) })
   }

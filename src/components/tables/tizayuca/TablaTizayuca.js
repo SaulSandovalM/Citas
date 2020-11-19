@@ -3,7 +3,7 @@ import '../Tables.css'
 import firebaseConf from '../../../Firebase'
 import ListComponent from './ListComponent'
 
-export default class TableHuejutla extends Component {
+export default class TableTizayuca extends Component {
   constructor () {
     super()
     this.state = {
@@ -45,13 +45,13 @@ export default class TableHuejutla extends Component {
   }
 
   componentDidMount () {
-    const itemsRef = firebaseConf.database().ref('agenda-cita/huejutla')
+    const itemsRef = firebaseConf.database().ref('agenda-cita/tizayuca')
     this.listenForItems(itemsRef)
   }
 
   update = (item) => {
     let updates = {}
-    updates['agenda-cita/huejutla/' + item.id] = {
+    updates['agenda-cita/tizayuca/' + item.id] = {
       status: "Atendido",
       nombre: item.nombre,
       apellidop: item.apellidop,

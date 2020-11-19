@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { loginUser } from '../../../actions'
 import '../Login.css'
 
-class Login extends Component {
+class LoginHuejutla extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -30,7 +30,7 @@ class Login extends Component {
   render () {
     const { loginError, isAuthenticated } = this.props
     if (isAuthenticated) {
-      return <Redirect to='/CitasPachuca' />
+      return <Redirect to='/CitasHuejutla' />
     } else {
       return (
         <div className='login-container'>
@@ -89,4 +89,4 @@ function mapStateToProps (state) {
   }
 }
 
-export default (connect(mapStateToProps)(Login))
+export default (connect(mapStateToProps)(LoginHuejutla))

@@ -13,7 +13,7 @@ export default class ListComponent extends Component {
   }
 
   componentWillMount () {
-    firebaseConf.database().ref('agenda-cita/pachuca').on('child_added', snapshot => {
+    firebaseConf.database().ref('agenda-cita/ixmiquilpan').on('child_added', snapshot => {
       this.setState({
         agendaCita: this.state.agendaCita.concat(snapshot.val())
       })
@@ -25,19 +25,12 @@ export default class ListComponent extends Component {
       <div className='App'>
         <h1>Citas</h1>
         <div className='row-cit'>
-          <div>
-            <Link to='/Filter' style={{ textDecoration: 'none' }}>
-              <p>Buscar por Folio</p>
-            </Link>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            // <Link to='/EdicionPachuca' style={{ textDecoration: 'none', marginRight: '20px' }}>
-            //   <p>Reagendar Citas</p>
-            // </Link>
-            <Link to='/Home' style={{ textDecoration: 'none' }}>
-              <p>Agendar Cita</p>
-            </Link>
-          </div>
+          <Link to='/FilterIxmiquilpan' style={{ textDecoration: 'none' }}>
+            <p>Buscar por Folio</p>
+          </Link>
+          <Link to='/HomeGobierno' style={{ textDecoration: 'none' }}>
+            <p>Agendar Cita</p>
+          </Link>
         </div>
         <div className='products-al'>
           <div className='col-table'>Nombre</div>

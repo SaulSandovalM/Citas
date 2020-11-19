@@ -7,38 +7,38 @@
   width: 100%;
 }
 .products-al-2 {
+  border-bottom: 1px solid grey;
   display: flex;
   flex-direction: row;
   width: 100%;
-  border-bottom: 1px solid grey;
 }
 .col-table {
-  width: 14%;
-  height: 40px;
   color: black;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   font-weight: bold;
+  height: 40px;
+  justify-content: center;
   padding-left: 10px;
+  width: 14%;
 }
 .col-table2 {
-  width: 16%;
-  height: 40px;
   color: black;
   display: flex;
   flex-direction: column;
+  height: 40px;
   justify-content: center;
   padding-left: 10px;
+  width: 16%;
 }
 .data-table {
-  width: 14%;
-  height: 40px;
   color: black;
   display: flex;
   flex-direction: column;
+  height: 40px;
   justify-content: center;
   padding-left: 10px;
+  width: 14%;
 }
 .row-ti {
   display: flex;
