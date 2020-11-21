@@ -26,14 +26,11 @@ export default class ListComponent extends Component {
         <h1>Citas</h1>
         <div className='row-cit'>
           <div>
-            <Link to='/Filter' style={{ textDecoration: 'none' }}>
-              <p>Buscar por Folio</p>
+            <Link to='/FiltroPachuca' style={{ textDecoration: 'none' }}>
+              <p>Buscar por Nombre</p>
             </Link>
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            // <Link to='/EdicionPachuca' style={{ textDecoration: 'none', marginRight: '20px' }}>
-            //   <p>Reagendar Citas</p>
-            // </Link>
             <Link to='/Home' style={{ textDecoration: 'none' }}>
               <p>Agendar Cita</p>
             </Link>

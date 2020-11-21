@@ -26,7 +26,7 @@ export default class ListComponent extends Component {
         <h1>Citas</h1>
         <div className='row-cit'>
           <Link to='/FilterHuejutla' style={{ textDecoration: 'none' }}>
-            <p>Buscar por Folio</p>
+            <p>Buscar por Nombre</p>
           </Link>
           <Link to='/HomeGobierno' style={{ textDecoration: 'none' }}>
             <p>Agendar Cita</p>
