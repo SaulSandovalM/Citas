@@ -121,7 +121,7 @@ export default class Home extends Component {
     var indices = []
     let dis
     for (var i = 0; i < dato.length; i++) {
-      if (dato[i].hora === hora && fecha === dato[i].fecha && indices.push(i) === 10) {
+      if (dato[i].hora === hora && fecha === dato[i].fecha && indices.push(i) === 2) {
         dis = <p>Se acabaron las citas para estos parametros</p>
       } else {
         dis = <button type='submit' className='boton-color2'>Confirmar</button>

@@ -15,28 +15,24 @@ export default class RowComponent extends Component {
    }
 
   render () {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1;
-    var yyyy = today.getFullYear();
+    var today = new Date()
+    var dd = today.getDate()
+    var mm = today.getMonth()+1
+    var yyyy = today.getFullYear()
     if (dd < 10) {
       dd = '0' + dd
     }
     if(mm < 10){
       mm = '0' + mm
     }
-
-    today = yyyy + '-' + mm + '-' + dd;
-
-    var d = new Date();
-    var n = d.getHours();
-
-    const fechaC = this.props.item.fecha;
-    const horaC = this.props.item.hora;
-    const sedeC = this.props.item.sede;
-    var trans = parseInt(horaC);
-    let table;
-
+    today = yyyy + '-' + mm + '-' + dd
+    var d = new Date()
+    var n = d.getHours()
+    const fechaC = this.props.item.fecha
+    const horaC = this.props.item.hora
+    const sedeC = this.props.item.sede
+    var trans = parseInt(horaC)
+    let table
     if (fechaC === today && trans === n && sedeC === 'Pachuca de Soto') {
       table =
         <div className='products-al'>

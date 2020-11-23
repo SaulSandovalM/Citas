@@ -30,8 +30,8 @@ export default class Filter extends Component {
     )
 
     return (
-      <div className='App' style={{ height: '100vh' }}>
-        <div className='App' style={{ height: '100vh' }}>
+      <div className='app-f'>
+        <div className='app-f'>
           <h1>Citas</h1>
           <input value={this.state.search} onChange={this.updateSearch.bind(this)} />
           <div className='products-al'>

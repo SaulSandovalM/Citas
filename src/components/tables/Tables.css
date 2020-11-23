@@ -1,5 +1,13 @@
 .App {
   padding: 30px 60px 60px 60px;
+  min-height: 90vh;
+}
+.row-cit {
+  display: flex;
+  justify-content: space-between;
+}
+.nolink {
+  text-decoration: none;
 }
 .products-al {
   display: flex;
@@ -22,15 +30,6 @@
   padding-left: 10px;
   width: 14%;
 }
-.col-table2 {
-  color: black;
-  display: flex;
-  flex-direction: column;
-  height: 40px;
-  justify-content: center;
-  padding-left: 10px;
-  width: 16%;
-}
 .data-table {
   color: black;
   display: flex;
@@ -40,6 +39,25 @@
   padding-left: 10px;
   width: 14%;
 }
+.col-table2 {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+  justify-content: center;
+  padding-left: 10px;
+  width: 16%;
+}
+.app-f {
+  height: 100vh;
+  padding: 30px 60px 60px 60px;
+}
+
+
+
+
+
+
 .row-ti {
   display: flex;
   justify-content: space-between;
@@ -167,8 +185,4 @@ body > .print-source {
   flex-direction: column;
   justify-content: center;
   padding-right: 50px;
-}
-.row-cit {
-  display: flex;
-  justify-content: space-between;
 }

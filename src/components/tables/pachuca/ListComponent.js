@@ -25,16 +25,12 @@ export default class ListComponent extends Component {
       <div className='App'>
         <h1>Citas</h1>
         <div className='row-cit'>
-          <div>
-            <Link to='/FiltroPachuca' style={{ textDecoration: 'none' }}>
-              <p>Buscar por Nombre</p>
-            </Link>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Link to='/Home' style={{ textDecoration: 'none' }}>
-              <p>Agendar Cita</p>
-            </Link>
-          </div>
+          <Link to='/FiltroPachuca' className='nolink'>
+            <p>Buscar por Nombre</p>
+          </Link>
+          <Link to='/Home' className='nolink'>
+            <p>Agendar Cita</p>
+          </Link>
         </div>
         <div className='products-al'>
           <div className='col-table'>Nombre</div>
