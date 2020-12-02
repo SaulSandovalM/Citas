@@ -128,6 +128,10 @@ export default class Home extends Component {
       }
     }
 
+    function mayus(e) {
+      e.value = e.value.toUpperCase();
+    }
+
     return (
       <div style={{ width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px' }}>
         <div style={{width: '65%'}}>
@@ -229,6 +233,7 @@ export default class Home extends Component {
                     <div className='porcent-r2'>
                       <label>RFC:</label>
                       <input
+                        style={{ textTransform: 'uppercase' }}
                         type='text'
                         className='cell-r'
                         id='rfc'
