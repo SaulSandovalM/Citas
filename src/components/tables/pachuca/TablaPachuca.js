@@ -6,6 +6,17 @@ import ListComponent from './ListComponent'
 export default class TablePachuca extends Component {
   constructor () {
     super()
+    var today = new Date()
+    var dd = today.getDate()
+    var mm = today.getMonth()+1
+    var yyyy = today.getFullYear()
+    if (dd < 10) {
+      dd = '0' + dd
+    }
+    if(mm < 10){
+      mm = '0' + mm
+    }
+    today = yyyy + '-' + mm + '-' + dd
     this.state = {
       nuevo: '',
       lista: [
@@ -14,7 +25,8 @@ export default class TablePachuca extends Component {
           name: 'preuba',
           done: false
         }
-      ]
+      ],
+      fecha: today
     }
   }
 
@@ -45,7 +57,7 @@ export default class TablePachuca extends Component {
   }
 
   componentDidMount () {
-    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca')
+    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca').orderByChild('hora')
     this.listenForItems(itemsRef)
   }
 
@@ -67,12 +79,29 @@ export default class TablePachuca extends Component {
     firebaseConf.database().ref().update(updates)
   }
 
+  onChange = (e) => {
+    const state = this.state
+    state[e.target.name] = e.target.value
+    this.setState(state)
+  }
+
   render () {
     return (
       <div className='App'>
+        <p style={{ marginTop: '50px' }}>Selecciona una fecha</p>
+        <input
+          type='date'
+          className='form-control-r'
+          id='fecha'
+          name='fecha'
+          value={this.state.fecha}
+          onChange={this.onChange}
+          required
+        />
         <ListComponent
           lista={this.state.lista}
           update={this.update}
+          fecha={this.state.fecha}
         />
       </div>
     )

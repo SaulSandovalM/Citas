@@ -47,6 +47,7 @@ export default class ListComponent extends Component {
               key={item.id}
               item={item}
               update={this.props.update}
+              fecha={this.props.fecha}
             />
           )
         }

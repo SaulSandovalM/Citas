@@ -441,7 +441,6 @@ export default class Home extends Component {
                     <div className='row-ti'>
                       <img src={'https://seeklogo.com/images/G/gobierno-del-estado-de-hidalgo-logo-83001C1D96-seeklogo.com.png'} alt='' className='img-cc'/>
                       <div className='column-t'>
-                        <p className='name-size'>Folio de Atención</p>
                         <p className='name-size'>Cita</p>
                         <p className='name-size2'>{this.state.fecha}, {this.state.hora}</p>
                       </div>
