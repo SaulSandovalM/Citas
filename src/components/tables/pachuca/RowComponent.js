@@ -28,14 +28,19 @@ export default class RowComponent extends Component {
     today = yyyy + '-' + mm + '-' + dd
     const fechaC = this.props.item.fecha
     const sedeC = this.props.item.sede
+
+    console.log(this.props.nombre)
+    console.log(this.props.apellidop)
+    console.log(this.props.apellidom)
+
     let table
     if ((fechaC === this.props.fecha && this.props.item.status === 'en espera' && sedeC === 'Pachuca de Soto' ) ||
-      (this.props.nombre === this.props.item.nombre)) {
+      (this.props.nombre === this.props.item.nombre && this.props.apellidop === this.props.item.apellidop && this.props.apellidom === this.props.item.apellidom)) {
       table =
         <div className='products-al'>
           <div className='data-table'>{this.props.item.nombre} {this.props.item.apellidop} {this.props.item.apellidom}</div>
           <div className='data-table'>{this.props.item.email}</div>
-          <div className='data-table'>{this.props.item.rfc}</div>
+          <div className='data-table'>{this.props.item.folio}</div>
           <div className='data-table'>{this.props.item.municipio}</div>
           <div className='data-table'>{this.props.item.fecha} / {this.props.item.hora}</div>
           <div className='data-table'>{this.props.item.status}</div>

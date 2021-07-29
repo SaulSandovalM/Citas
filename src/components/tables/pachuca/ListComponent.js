@@ -25,9 +25,6 @@ export default class ListComponent extends Component {
       <div className='App'>
         <h1>Citas</h1>
         <div className='row-cit'>
-          <Link to='/FiltroPachuca' className='nolink'>
-            <p>Buscar por Nombre</p>
-          </Link>
           <Link to='/Home' className='nolink'>
             <p>Agendar Cita</p>
           </Link>
@@ -35,7 +32,7 @@ export default class ListComponent extends Component {
         <div className='products-al'>
           <div className='col-table'>Nombre</div>
           <div className='col-table'>Correo</div>
-          <div className='col-table'>RFC</div>
+          <div className='col-table'>Folio</div>
           <div className='col-table'>Municipio</div>
           <div className='col-table'>Fecha/Hora</div>
           <div className='col-table'>Estatus</div>
@@ -49,6 +46,8 @@ export default class ListComponent extends Component {
               update={this.props.update}
               fecha={this.props.fecha}
               nombre={this.props.nombre}
+              apellidop={this.props.apellidop}
+              apellidom={this.props.apellidom}
             />
           )
         }

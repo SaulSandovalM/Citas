@@ -39,15 +39,14 @@ export default class TablePachuca extends Component {
           nombre: child.val().nombre,
           apellidop: child.val().apellidop,
           apellidom: child.val().apellidom,
-          colonia: child.val().colonia,
           email: child.val().email,
+          telefono: child.val().telefono,
+          municipio: child.val().municipio,
+          sede: child.val().sede,
           fecha: child.val().fecha,
           hora: child.val().hora,
-          municipio: child.val().municipio,
-          rfc: child.val().rfc,
           status: child.val().status,
-          done: child.val().done,
-          sede: child.val().sede,
+          folio: child.val().folio,
           id: child.key
         })
       })
@@ -69,13 +68,13 @@ export default class TablePachuca extends Component {
       nombre: item.nombre,
       apellidop: item.apellidop,
       apellidom: item.apellidom,
-      colonia: item.colonia,
       email: item.email,
+      telefono: item.telefono,
+      municipio: item.municipio,
+      sede: item.sede,
       fecha: item.fecha,
       hora: item.hora,
-      municipio: item.municipio,
-      rfc: item.rfc,
-      sede: item.sede,
+      folio: item.folio,
     }
     firebaseConf.database().ref().update(updates)
   }
@@ -89,7 +88,7 @@ export default class TablePachuca extends Component {
   render () {
     return (
       <div className='App'>
-        <div>
+        <div style={{ display: 'flex' }}>
           <div>
             <p style={{ marginTop: '50px' }}>Selecciona una fecha</p>
             <input
@@ -102,8 +101,8 @@ export default class TablePachuca extends Component {
               required
             />
           </div>
-          <div>
-            <p style={{ marginTop: '50px' }}>Nombre a buscar</p>
+          <div style={{ marginLeft: '30px', width: '250px' }}>
+            <p style={{ marginTop: '50px' }}>Nombre</p>
             <input
               type='text'
               className='form-control-r'
@@ -114,12 +113,38 @@ export default class TablePachuca extends Component {
               required
             />
           </div>
+          <div style={{ marginLeft: '30px', width: '250px' }}>
+            <p style={{ marginTop: '50px' }}>Apellido P</p>
+            <input
+              type='text'
+              className='form-control-r'
+              id='apellidop'
+              name='apellidop'
+              value={this.state.apellidop}
+              onChange={this.onChange}
+              required
+            />
+          </div>
+          <div style={{ marginLeft: '30px', width: '250px' }}>
+            <p style={{ marginTop: '50px' }}>Apellido M</p>
+            <input
+              type='text'
+              className='form-control-r'
+              id='apellidom'
+              name='apellidom'
+              value={this.state.apellidom}
+              onChange={this.onChange}
+              required
+            />
+          </div>
         </div>
         <ListComponent
           lista={this.state.lista}
           update={this.update}
           fecha={this.state.fecha}
           nombre={this.state.nombre}
+          apellidop={this.state.apellidop}
+          apellidom={this.state.apellidom}
         />
       </div>
     )
