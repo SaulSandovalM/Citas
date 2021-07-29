@@ -14,7 +14,7 @@ export default class Home extends Component {
       alertData: {},
       nombre: '',
       apellidop: '',
-      apellidom: '',
+      apellidom: ' ',
       fecha: '',
       hora: '',
       folio: '',
@@ -49,17 +49,8 @@ export default class Home extends Component {
   }
 
   componentDidMount () {
-    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca')
+    const itemsRef = firebaseConf.database().ref('agenda-cita/')
     this.listenForItems(itemsRef)
-  }
-
-  componentWillMount () {
-    const formRef = firebaseConf.database().ref('agenda-cita').orderByKey().limitToLast(6)
-    formRef.on('child_added', snapshot => {
-      const { nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede } = snapshot.val()
-      const data = { nombre, apellidop, apellidom, municipio, colonia, fecha, hora, status, email, rfc, folio, sede }
-      this.setState({ form: [data].concat(this.state.form) })
-    })
   }
 
   listenForItems = (itemsRef) => {
@@ -83,14 +74,14 @@ export default class Home extends Component {
       nombre: this.inputNombre.value,
       apellidop: this.inputApellidop.value,
       apellidom: this.inputApellidom.value,
+      email: this.inputEmail.value,
+      telefono: this.inputTelefono.value,
       municipio: this.inputMunicipio.value,
-      colonia: this.inputColonia.value,
+      sede: this.inputSede.value,
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
-      email: this.inputEmail.value,
-      rfc: this.inputRfc.value,
       status: this.inputStatus.value,
-      sede: this.inputSede.value
+      folio: this.inputFolio.value
     }
     this.setState({
       nombre: this.inputNombre.value,
@@ -99,16 +90,17 @@ export default class Home extends Component {
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
       sede: this.inputSede.value,
+      folio: this.inputFolio.value
     })
-    if (params.nombre && params.apellidop && params.apellidom && params.municipio && params.email && params.sede
-      && params.colonia && params.fecha && params.hora && params.status && params.rfc) {
-      firebaseConf.database().ref('agenda-cita/pachuca').push(params).then(() => {
-        alert('Tu solicitud fue enviada, no olvides realizar tu pago antes de ir a tu cita.')
+    if (params.nombre && params.apellidop && params.apellidom && params.email &&
+      params.telefono && params.municipio && params.sede && params.fecha &&
+      params.hora && params.status && params.folio) {
+      firebaseConf.database().ref('agenda-cita/').push(params).then(() => {
+        alert('Tu solicitud fue enviada.')
       }).catch(() => {
         alert('Tu solicitud no puede ser enviada')
       })
       this.resetForm()
-      this.toggleHidden()
     } else {
       alert('Por favor llene el formulario')
     }
@@ -118,75 +110,32 @@ export default class Home extends Component {
     const dato = this.state.lista
     const fecha = this.state.fecha
     const hora = this.state.hora
-    var indices = []
+    var indice2 = []
+    dato.map(item => {
+      item.hora === hora && item.fecha === fecha &&
+        indice2.push(item)
+    })
+
     let dis
     for (var i = 0; i < dato.length; i++) {
-      if (dato[i].hora === hora && fecha === dato[i].fecha && indices.push(i) === 2) {
+      if (indice2.length >= 2) {
         dis = <p>Se acabaron las citas para estos parametros</p>
       } else {
-        dis = <button type='submit' className='boton-color2'>Confirmar</button>
+        dis =
+          <ReactToPrint
+            trigger={() => <button type='submit' className='boton-color2'>Confirmar</button>}
+            content={() => this.componentRef}
+            onAfterPrint={this.toggleHidden.bind(this)}
+            onBeforePrint={this.toggleHidden.bind(this)}
+          />
       }
-    }
-
-    function mayus(e) {
-      e.value = e.value.toUpperCase();
     }
 
     return (
       <div style={{ width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px' }}>
         <div style={{width: '65%'}}>
-          <h1 className='back-title'>Expedición de Constancia de NO Antecedentes Penales</h1>
-          <div className='row'>
-            <div className='text'>
-              <h5 className='title-r'>Requisitos</h5>
-              <p className='size'>
-                Si Usted Radica en México.
-                <br></br><br></br>
-                1.- Recibo de pago (formato F-7)
-                <br></br>
-                2.- Una Copia de constancia de la  Clave Única de Registro de Población (CURP) actualizada (código QR)
-                <br></br>
-                3.- Una Copia de Identificación Oficial (INE)
-                <br></br>
-                4.- Una Fotografía a color tamaño pasaporte fondo blanco.
-                <br></br>
-                5. Recibo de pago (formato F-7) <a href='https://ruts.hidalgo.gob.mx/tramite/572'>Desacargar formato de pago</a>
-                <br></br><br></br>
-                Si Usted radica en el Extranjero
-                <br></br><br></br>
-                1. Oficio del consulado dirigido a la  Procuraduría General de Justicia del Estado de Hidalgo
-                <br></br>
-                2. Toma de Huellas por el Consulado
-                <br></br>
-                3. Copia de identificación oficial (INE, Cartilla, Pasaporte o Matrícula)
-                <br></br>
-                4. Una Copia de constancia de la  Clave Única de Registro de Población (CURP) actualizada (código QR)
-                <br></br>
-                5. 2 fotografías tamaño credencial a color de frente
-                <br></br>
-                6. Comprobante de Domicilio donde radica el interesado
-                <br></br>
-                7. Carta poder
-                <br></br>
-                8. Credencial original y copia de la persona que realiza el trámite
-                <br></br>
-                9. Recibo de pago (formato F-7) <a href='https://ruts.hidalgo.gob.mx/tramite/572'>Desacargar formato de pago</a>
-              </p>
-            </div>
-            <div className='text2-res'>
-              <h5 className='title-r'>Ubicación</h5>
-              <p className='size'>Servicios Periciales Pachuca</p>
-              <p className='size'><i>Impulsor Sector Primario 202, Plaza las Torres, 42082 Pachuca de Soto, Hgo.</i></p>
-              <a href='https://www.google.com.mx/maps/place/Servicios+Periciales/@20.0645574,-98.7844438,18z/data=!4m5!3m4!1s0x0:0x3c9746ad18bdeb6d!8m2!3d20.065287!4d-98.7853584'>Abrir ubicación Google Maps</a>
-              <p className='size'>Servicios Periciales Huejutla</p>
-              <p className='size'><i>Olimpia, 43000 Huejutla, Hgo.</i></p>
-              <a href='https://www.google.com.mx/maps/place/Agencia+del+Ministerio+Publico/@21.1496548,-98.4171,18z/data=!4m8!1m2!2m1!1sAgencia+de+Ministerio+P%C3%BAblico!3m4!1s0x85d727a12b89e037:0xb4b27e217d3f0a5e!8m2!3d21.1495294!4d-98.4171117'>Abrir ubicación Google Maps</a>
-              <h5 className='title-r'>Informes</h5>
-              <p className='size'>Para más información favor de llamar al numero: <br></br>+52 (771) 71 79000 Ext. 9217</p>
-            </div>
-          </div>
           <div style={{width: '100%', marginBottom: '100px'}}>
-            <h1 className='back-title'>Agenda tu Cita</h1>
+            <h1 className='back-title'>Agenda tu Cita para el Tramite de Constancia de NO Antecedentes Penales</h1>
             <div className='row2'>
               <div className='text2'>
                 <form onSubmit={this.sendMessage.bind(this)} ref='contactForm'>
@@ -217,7 +166,6 @@ export default class Home extends Component {
                         type='text'
                         className='cell-r'
                         id='apellidom'
-                        required
                         ref={apellidom => this.inputApellidom = apellidom} />
                     </div>
                   </div>
@@ -231,14 +179,14 @@ export default class Home extends Component {
                         ref={email => this.inputEmail = email} />
                     </div>
                     <div className='porcent-r2'>
-                      <label>RFC:</label>
+                      <label>Telefono:</label>
                       <input
                         style={{ textTransform: 'uppercase' }}
                         type='text'
                         className='cell-r'
-                        id='rfc'
+                        id='telefono'
                         maxLength={13}
-                        ref={rfc => this.inputRfc = rfc} />
+                        ref={telefono => this.inputTelefono = telefono} />
                     </div>
                   </div>
                   <div className='card-container-r2'>
@@ -344,17 +292,7 @@ export default class Home extends Component {
                       </select>
                     </div>
                   </div>
-                  <div className='form-group-r'>
-                    <div className='modal-name'>
-                      <label>Colonia:</label>
-                      <input
-                        type='text'
-                        className='form-control-r'
-                        id='colonia'
-                        required
-                        ref={colonia => this.inputColonia = colonia} />
-                    </div>
-                  </div>
+
                   <div className='card-container-r2'>
                     <div className='porcent-r'>
                       <label>Fecha de la cita:</label>
@@ -410,6 +348,17 @@ export default class Home extends Component {
                       </select>
                     </div>
                   </div>
+                  <div className='form-group-r'>
+                    <div className='modal-name'>
+                      <label>Folio de Pago:</label>
+                      <input
+                        type='text'
+                        className='form-control-r'
+                        id='folio'
+                        required
+                        ref={folio => this.inputFolio = folio} />
+                    </div>
+                  </div>
                   <div className='form-group-r hidden'>
                     <div className='modal-name'>
                       <input
@@ -420,20 +369,11 @@ export default class Home extends Component {
                         ref={status => this.inputStatus = status} />
                     </div>
                   </div>
-                  <div className='form-group-r hidden'>
-                    <div className='modal-name'>
-                      <input
-                        type='numeric'
-                        className='form-control-r'
-                        id='folio'
-                        ref={folio => this.inputFolio = folio} />
-                    </div>
-                  </div>
                   <div className='presentation-cta'>
                     {dis}
                   </div>
                   {!this.state.isHidden && <ReactToPrint
-                    trigger={() => <button>Imprimie aqui tu Ticket</button>}
+                    trigger={() => this.toggleHidden.bind(this)}
                     content={() => this.componentRef}
                     onAfterPrint={this.toggleHidden.bind(this)}
                   />}

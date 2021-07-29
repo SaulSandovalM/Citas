@@ -13,7 +13,7 @@ export default class ListComponent extends Component {
   }
 
   componentWillMount () {
-    firebaseConf.database().ref('agenda-cita/pachuca').on('child_added', snapshot => {
+    firebaseConf.database().ref('agenda-cita/').on('child_added', snapshot => {
       this.setState({
         agendaCita: this.state.agendaCita.concat(snapshot.val())
       })
@@ -48,6 +48,7 @@ export default class ListComponent extends Component {
               item={item}
               update={this.props.update}
               fecha={this.props.fecha}
+              nombre={this.props.nombre}
             />
           )
         }

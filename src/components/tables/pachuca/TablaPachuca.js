@@ -26,7 +26,8 @@ export default class TablePachuca extends Component {
           done: false
         }
       ],
-      fecha: today
+      fecha: today,
+      nombre: ''
     }
   }
 
@@ -57,13 +58,13 @@ export default class TablePachuca extends Component {
   }
 
   componentDidMount () {
-    const itemsRef = firebaseConf.database().ref('agenda-cita/pachuca').orderByChild('hora')
+    const itemsRef = firebaseConf.database().ref('agenda-cita/').orderByChild('hora')
     this.listenForItems(itemsRef)
   }
 
   update = (item) => {
     let updates = {}
-    updates['agenda-cita/pachuca/' + item.id] = {
+    updates['agenda-cita/' + item.id] = {
       status: 'Atendido',
       nombre: item.nombre,
       apellidop: item.apellidop,
@@ -88,20 +89,37 @@ export default class TablePachuca extends Component {
   render () {
     return (
       <div className='App'>
-        <p style={{ marginTop: '50px' }}>Selecciona una fecha</p>
-        <input
-          type='date'
-          className='form-control-r'
-          id='fecha'
-          name='fecha'
-          value={this.state.fecha}
-          onChange={this.onChange}
-          required
-        />
+        <div>
+          <div>
+            <p style={{ marginTop: '50px' }}>Selecciona una fecha</p>
+            <input
+              type='date'
+              className='form-control-r'
+              id='fecha'
+              name='fecha'
+              value={this.state.fecha}
+              onChange={this.onChange}
+              required
+            />
+          </div>
+          <div>
+            <p style={{ marginTop: '50px' }}>Nombre a buscar</p>
+            <input
+              type='text'
+              className='form-control-r'
+              id='nombre'
+              name='nombre'
+              value={this.state.nombre}
+              onChange={this.onChange}
+              required
+            />
+          </div>
+        </div>
         <ListComponent
           lista={this.state.lista}
           update={this.update}
           fecha={this.state.fecha}
+          nombre={this.state.nombre}
         />
       </div>
     )

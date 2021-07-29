@@ -22,14 +22,15 @@ export default class RowComponent extends Component {
     if (dd < 10) {
       dd = '0' + dd
     }
-    if(mm < 10){
+    if (mm < 10) {
       mm = '0' + mm
     }
     today = yyyy + '-' + mm + '-' + dd
     const fechaC = this.props.item.fecha
     const sedeC = this.props.item.sede
     let table
-    if (fechaC === this.props.fecha && this.props.item.status === 'en espera' && sedeC === 'Pachuca de Soto') {
+    if ((fechaC === this.props.fecha && this.props.item.status === 'en espera' && sedeC === 'Pachuca de Soto' ) ||
+      (this.props.nombre === this.props.item.nombre)) {
       table =
         <div className='products-al'>
           <div className='data-table'>{this.props.item.nombre} {this.props.item.apellidop} {this.props.item.apellidom}</div>
