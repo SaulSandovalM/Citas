@@ -17,7 +17,7 @@ export default class Home extends Component {
       apellidom: ' ',
       fecha: '',
       hora: '',
-      folio: '',
+      folio: ' ',
       sede: '',
       isHidden: true,
       lista: [
@@ -51,6 +51,14 @@ export default class Home extends Component {
   componentDidMount () {
     const itemsRef = firebaseConf.database().ref('agenda-cita/')
     this.listenForItems(itemsRef)
+    var wishRef = firebaseConf.database().ref('folio/acb123')
+    wishRef.on('value', (snapshot) => {
+      let updatedWish = snapshot.val()
+      this.setState({
+        folio: updatedWish.folio
+      })
+      wishRef.set(updatedWish)
+    })
   }
 
   listenForItems = (itemsRef) => {
@@ -68,12 +76,24 @@ export default class Home extends Component {
     })
   }
 
+  incrementFolio = () => {
+    const wishRef = firebaseConf.database().ref('folio/acb123')
+    wishRef.once('value').then(snapshot => {
+      let updatedWish = snapshot.val()
+      this.setState({
+        folio: updatedWish.folio
+      })
+      updatedWish.folio = updatedWish.folio + 1
+      wishRef.set(updatedWish)
+    })
+  }
+
   sendMessage (e) {
     e.preventDefault()
     const params = {
       nombre: this.inputNombre.value,
       apellidop: this.inputApellidop.value,
-      apellidom: this.inputApellidom.value,
+      apellidom: this.inputApellidom.value ? this.inputApellidom.value : ' ',
       email: this.inputEmail.value,
       telefono: this.inputTelefono.value,
       municipio: this.inputMunicipio.value,
@@ -81,7 +101,7 @@ export default class Home extends Component {
       fecha: this.inputFecha.value,
       hora: this.inputHora.value,
       status: this.inputStatus.value,
-      folio: this.inputFolio.value
+      folio: this.inputFolio.value ? this.inputFolio.value : this.state.folio
     }
     this.setState({
       nombre: this.inputNombre.value,
@@ -100,6 +120,8 @@ export default class Home extends Component {
       }).catch(() => {
         alert('Tu solicitud no puede ser enviada')
       })
+      this.toggleHidden()
+      this.incrementFolio()
       this.resetForm()
     } else {
       alert('Por favor llene el formulario')
@@ -111,25 +133,24 @@ export default class Home extends Component {
     const fecha = this.state.fecha
     const hora = this.state.hora
     var indice2 = []
-    dato.map(item => {
+    dato.map(item =>
       item.hora === hora && item.fecha === fecha &&
         indice2.push(item)
-    })
+    )
 
     let dis
     for (var i = 0; i < dato.length; i++) {
       if (indice2.length >= 2) {
         dis = <p>Se acabaron las citas para estos parametros</p>
       } else {
-        dis =
-          <ReactToPrint
-            trigger={() => <button type='submit' className='boton-color2'>Confirmar</button>}
-            content={() => this.componentRef}
-            onAfterPrint={this.toggleHidden.bind(this)}
-            onBeforePrint={this.toggleHidden.bind(this)}
-          />
+        dis = <button type='submit' className='boton-color2'>Confirmar</button>
       }
     }
+
+    var f = new Date(this.state.fecha)
+    var today = new Date()
+    var meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+    today = f.getDate() + 1 + '-' + meses[f.getMonth()] + '-' + f.getFullYear()
 
     return (
       <div style={{ width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px' }}>
@@ -218,7 +239,7 @@ export default class Home extends Component {
                         <option id='municipio' required>Epazoyucan</option>
                         <option id='municipio' required>Francisco I. Madero</option>
                         <option id='municipio' required>Huasca de Ocampo</option>
-                        <option id='municipio' required>Huautla</option>
+                        <option id='municipio' required>Huautlthisa</option>
                         <option id='municipio' required>Huazalingo</option>
                         <option id='municipio' required>Huehuetla</option>
                         <option id='municipio' required>Huejutla de Reyes</option>
@@ -355,7 +376,6 @@ export default class Home extends Component {
                         type='text'
                         className='form-control-r'
                         id='folio'
-                        required
                         ref={folio => this.inputFolio = folio} />
                     </div>
                   </div>
@@ -373,16 +393,22 @@ export default class Home extends Component {
                     {dis}
                   </div>
                   {!this.state.isHidden && <ReactToPrint
-                    trigger={() => this.toggleHidden.bind(this)}
+                    trigger={() => <button>Imprimir ticket</button>}
                     content={() => this.componentRef}
                     onAfterPrint={this.toggleHidden.bind(this)}
                   />}
                   <div className='print-source' style={{padding: '20px'}} ref={el => (this.componentRef = el)}>
                     <div className='row-ti'>
                       <img src={'https://seeklogo.com/images/G/gobierno-del-estado-de-hidalgo-logo-83001C1D96-seeklogo.com.png'} alt='' className='img-cc'/>
-                      <div className='column-t'>
-                        <p className='name-size'>Cita</p>
-                        <p className='name-size2'>{this.state.fecha}, {this.state.hora}</p>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div className='column-t'>
+                          <p className='name-size'>Folio</p>
+                          <p className='name-size2'>DGSP-CNAP-{this.state.folio}-21</p>
+                        </div>
+                        <div className='column-t'>
+                          <p className='name-size'>Cita</p>
+                          <p className='name-size2'>{today}, {this.state.hora}</p>
+                        </div>
                       </div>
                     </div>
                     <div className='column-t row-ti'>
