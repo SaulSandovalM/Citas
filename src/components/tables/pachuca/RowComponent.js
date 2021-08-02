@@ -20,7 +20,7 @@ export default class RowComponent extends Component {
     } else if (email === 'tizayuca@procuraduria.com') {
       admin = 'Tizayuca'
     } else if (email === 'pachuca@procuraduria.com') {
-      admin = 'Pachuca'
+      admin = 'Pachuca de Soto'
     } else if (email === 'huejutla@procuraduria.com') {
       admin = 'Huejutla'
     }
