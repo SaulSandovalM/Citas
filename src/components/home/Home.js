@@ -140,7 +140,7 @@ export default class Home extends Component {
 
     let dis
     for (var i = 0; i < dato.length; i++) {
-      if (indice2.length >= 2) {
+      if (indice2.length >= 3) {
         dis = <p>Se acabaron las citas para estos parametros</p>
       } else {
         dis = <button type='submit' className='boton-color2'>Confirmar</button>
