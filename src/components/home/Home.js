@@ -155,17 +155,17 @@ export default class Home extends Component {
       }
     }
 
-    var f = new Date(this.state.fecha)
-    var today = new Date()
-    var meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-    today = f.getDate() + 1 + '-' + meses[f.getMonth()] + '-' + f.getFullYear()
-
     const { selectedDay } = this.state
     console.log(selectedDay)
     var newDate = new Date(selectedDay)
     var Dates = new Date()
     Dates = newDate.getFullYear() + '-' + newDate.getMonth() + '-' + newDate.getDate()
     this.state.fecha = Dates
+
+    var f = new Date(this.state.fecha)
+    var today = new Date()
+    var meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+    today = f.getDate() + 1 + '-' + meses[f.getMonth() + 1] + '-' + f.getFullYear()
 
     return (
       <div style={{ width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px' }}>
