@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import './Home.css'
 import firebaseConf from '../../Firebase'
 import ReactToPrint from 'react-to-print'
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import 'react-day-picker/lib/style.css'
 
 export default class Home extends Component {
   constructor (props) {
     super(props)
     this.handleChangef = this.handleChangef.bind(this)
     this.handleChangeh = this.handleChangeh.bind(this)
+    this.handleDayChange = this.handleDayChange.bind(this)
     this.state = {
       form: [],
       alert: false,
@@ -26,8 +29,13 @@ export default class Home extends Component {
           name: 'preuba',
           done: false
         }
-      ]
+      ],
+      selectedDay: undefined
     }
+  }
+
+  handleDayChange(day) {
+    this.setState({ selectedDay: day })
   }
 
   handleChangef (e) {
@@ -98,7 +106,7 @@ export default class Home extends Component {
       telefono: this.inputTelefono.value,
       municipio: this.inputMunicipio.value,
       sede: this.inputSede.value,
-      fecha: this.inputFecha.value,
+      fecha: this.state.fecha,
       hora: this.inputHora.value,
       status: this.inputStatus.value,
       folio: this.inputFolio.value ? this.inputFolio.value : this.state.folio
@@ -107,7 +115,7 @@ export default class Home extends Component {
       nombre: this.inputNombre.value,
       apellidop: this.inputApellidop.value,
       apellidom: this.inputApellidom.value,
-      fecha: this.inputFecha.value,
+      fecha: '',
       hora: this.inputHora.value,
       sede: this.inputSede.value,
       folio: this.inputFolio.value
@@ -152,11 +160,18 @@ export default class Home extends Component {
     var meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
     today = f.getDate() + 1 + '-' + meses[f.getMonth()] + '-' + f.getFullYear()
 
+    const { selectedDay } = this.state
+    console.log(selectedDay)
+    var newDate = new Date(selectedDay)
+    var Dates = new Date()
+    Dates = newDate.getFullYear() + '-' + newDate.getMonth() + '-' + newDate.getDate()
+    this.state.fecha = Dates
+
     return (
       <div style={{ width: '100%', justifyContent: 'center', display: 'flex', zIndex: '100', paddingTop: '100px' }}>
         <div style={{width: '65%'}}>
           <div style={{width: '100%', marginBottom: '100px'}}>
-            <h1 className='back-title'>Agenda tu Cita para el Tramite de Constancia de NO Antecedentes Penales</h1>
+            <h1 className='back-title'>Agenda tu cita para el tramite de constancia de no antecedentes penales</h1>
             <div className='row2'>
               <div className='text2'>
                 <form onSubmit={this.sendMessage.bind(this)} ref='contactForm'>
@@ -317,13 +332,21 @@ export default class Home extends Component {
                   <div className='card-container-r2'>
                     <div className='porcent-r'>
                       <label>Fecha de la cita:</label>
-                      <input
-                        type='date'
-                        className='cell-r'
-                        id='fecha'
-                        required
-                        onChange={this.handleChangef}
-                        ref={fecha => this.inputFecha = fecha} />
+                        <DayPickerInput
+                          onDayChange={this.handleDayChange}
+                          dayPickerProps={{
+                            modifiers: {
+                              disabled: [
+                                {
+                                  daysOfWeek: [0, 6]
+                                },
+                                {
+                                  before: new Date(2018, 7, 8)
+                                }
+                              ]
+                            }
+                          }}
+                      />
                     </div>
                     <div className='porcent-r2'>
                       <label>Hora de la cita:</label>
